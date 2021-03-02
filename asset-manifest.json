@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/portfolio/static/css/main.94d19829.chunk.css",
-    "main.js": "/portfolio/static/js/main.406a14ca.chunk.js",
-    "main.js.map": "/portfolio/static/js/main.406a14ca.chunk.js.map",
+    "main.js": "/portfolio/static/js/main.8c57a7ba.chunk.js",
+    "main.js.map": "/portfolio/static/js/main.8c57a7ba.chunk.js.map",
     "runtime-main.js": "/portfolio/static/js/runtime-main.8fed2963.js",
     "runtime-main.js.map": "/portfolio/static/js/runtime-main.8fed2963.js.map",
     "static/css/2.658248ec.chunk.css": "/portfolio/static/css/2.658248ec.chunk.css",
@@ -22,6 +22,7 @@
     "static/media/pairs.81c88e42.png": "/portfolio/static/media/pairs.81c88e42.png",
     "static/media/player.f26df3e5.png": "/portfolio/static/media/player.f26df3e5.png",
     "static/media/rock-paper-scissors.c3f3d6d9.png": "/portfolio/static/media/rock-paper-scissors.c3f3d6d9.png",
+    "static/media/stopwatch.140769d1.png": "/portfolio/static/media/stopwatch.140769d1.png",
     "static/media/text-to-speech.d22d25e0.png": "/portfolio/static/media/text-to-speech.d22d25e0.png",
     "static/media/tic-tac-toe.8ac24aac.png": "/portfolio/static/media/tic-tac-toe.8ac24aac.png",
     "static/media/wallpaper-generator.f177095d.png": "/portfolio/static/media/wallpaper-generator.f177095d.png"
@@ -31,6 +32,6 @@
     "static/css/2.658248ec.chunk.css",
     "static/js/2.7f1ee1da.chunk.js",
     "static/css/main.94d19829.chunk.css",
-    "static/js/main.406a14ca.chunk.js"
+    "static/js/main.8c57a7ba.chunk.js"
   ]
 }
