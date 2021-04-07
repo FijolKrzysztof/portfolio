@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/portfolio/static/css/main.6587c072.chunk.css",
-    "main.js": "/portfolio/static/js/main.5ff593bb.chunk.js",
-    "main.js.map": "/portfolio/static/js/main.5ff593bb.chunk.js.map",
+    "main.css": "/portfolio/static/css/main.803ac4a2.chunk.css",
+    "main.js": "/portfolio/static/js/main.816e2303.chunk.js",
+    "main.js.map": "/portfolio/static/js/main.816e2303.chunk.js.map",
     "runtime-main.js": "/portfolio/static/js/runtime-main.8fed2963.js",
     "runtime-main.js.map": "/portfolio/static/js/runtime-main.8fed2963.js.map",
     "static/css/2.658248ec.chunk.css": "/portfolio/static/css/2.658248ec.chunk.css",
@@ -10,7 +10,7 @@
     "static/js/2.7f1ee1da.chunk.js.map": "/portfolio/static/js/2.7f1ee1da.chunk.js.map",
     "index.html": "/portfolio/index.html",
     "static/css/2.658248ec.chunk.css.map": "/portfolio/static/css/2.658248ec.chunk.css.map",
-    "static/css/main.6587c072.chunk.css.map": "/portfolio/static/css/main.6587c072.chunk.css.map",
+    "static/css/main.803ac4a2.chunk.css.map": "/portfolio/static/css/main.803ac4a2.chunk.css.map",
     "static/js/2.7f1ee1da.chunk.js.LICENSE.txt": "/portfolio/static/js/2.7f1ee1da.chunk.js.LICENSE.txt",
     "static/media/bill-splitter.2d98b4c3.png": "/portfolio/static/media/bill-splitter.2d98b4c3.png",
     "static/media/calculator.c4ccb4bf.png": "/portfolio/static/media/calculator.c4ccb4bf.png",
@@ -21,6 +21,7 @@
     "static/media/numbered-list.1858772e.png": "/portfolio/static/media/numbered-list.1858772e.png",
     "static/media/pairs.81c88e42.png": "/portfolio/static/media/pairs.81c88e42.png",
     "static/media/player.f26df3e5.png": "/portfolio/static/media/player.f26df3e5.png",
+    "static/media/resume-creator.2329814f.png": "/portfolio/static/media/resume-creator.2329814f.png",
     "static/media/rock-paper-scissors.c3f3d6d9.png": "/portfolio/static/media/rock-paper-scissors.c3f3d6d9.png",
     "static/media/stopwatch.140769d1.png": "/portfolio/static/media/stopwatch.140769d1.png",
     "static/media/text-to-speech.d22d25e0.png": "/portfolio/static/media/text-to-speech.d22d25e0.png",
@@ -31,7 +32,7 @@
     "static/js/runtime-main.8fed2963.js",
     "static/css/2.658248ec.chunk.css",
     "static/js/2.7f1ee1da.chunk.js",
-    "static/css/main.6587c072.chunk.css",
-    "static/js/main.5ff593bb.chunk.js"
+    "static/css/main.803ac4a2.chunk.css",
+    "static/js/main.816e2303.chunk.js"
   ]
 }
