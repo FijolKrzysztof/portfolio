@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/portfolio/static/css/main.803ac4a2.chunk.css",
-    "main.js": "/portfolio/static/js/main.7a4e3035.chunk.js",
-    "main.js.map": "/portfolio/static/js/main.7a4e3035.chunk.js.map",
+    "main.js": "/portfolio/static/js/main.cd4079d3.chunk.js",
+    "main.js.map": "/portfolio/static/js/main.cd4079d3.chunk.js.map",
     "runtime-main.js": "/portfolio/static/js/runtime-main.8fed2963.js",
     "runtime-main.js.map": "/portfolio/static/js/runtime-main.8fed2963.js.map",
     "static/css/2.658248ec.chunk.css": "/portfolio/static/css/2.658248ec.chunk.css",
@@ -20,6 +20,7 @@
     "static/media/note.2f21f522.png": "/portfolio/static/media/note.2f21f522.png",
     "static/media/numbered-list.1858772e.png": "/portfolio/static/media/numbered-list.1858772e.png",
     "static/media/pairs.81c88e42.png": "/portfolio/static/media/pairs.81c88e42.png",
+    "static/media/player-demo.69fffb83.png": "/portfolio/static/media/player-demo.69fffb83.png",
     "static/media/player.f26df3e5.png": "/portfolio/static/media/player.f26df3e5.png",
     "static/media/resume-creator.2329814f.png": "/portfolio/static/media/resume-creator.2329814f.png",
     "static/media/stopwatch.140769d1.png": "/portfolio/static/media/stopwatch.140769d1.png",
@@ -32,6 +33,6 @@
     "static/css/2.658248ec.chunk.css",
     "static/js/2.7f1ee1da.chunk.js",
     "static/css/main.803ac4a2.chunk.css",
-    "static/js/main.7a4e3035.chunk.js"
+    "static/js/main.cd4079d3.chunk.js"
   ]
 }
