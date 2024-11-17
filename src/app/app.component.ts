@@ -1,13 +1,13 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { AnimatedProjectsComponent } from './components/code-to-ui.component';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+// import { AnimatedProjectsComponent } from './components/code-to-ui.component';
+import { AnimatedProjectsComponent } from './components/animated-projects/animated-projects.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, AnimatedProjectsComponent],
+  imports: [AnimatedProjectsComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
