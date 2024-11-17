@@ -49,13 +49,17 @@ interface Project {
               <div
                 class="project-card"
                 [class.visible]="section.showCard"
-                *ngIf="section.project">
+                [class.expanded]="section.isExpanded"
+                *ngIf="section.project"
+                (click)="expandProject(section)">
                 <h3>{{ section.project.title }}</h3>
-                <p>{{ section.project.description }}</p>
-                <div class="tech-container">
-                  @for (tech of section.project.tech; track tech) {
-                    <span class="tech-badge">{{ tech }}</span>
-                  }
+                <div class="project-content" [class.expanded]="section.isExpanded">
+                  <p>{{ section.project.description }}</p>
+                  <div class="tech-container">
+                    @for (tech of section.project.tech; track tech) {
+                      <span class="tech-badge">{{ tech }}</span>
+                    }
+                  </div>
                 </div>
               </div>
             </div>
@@ -186,6 +190,7 @@ interface Project {
     .green { color: #85e89d; }
     .orange { color: #ffab70; }
     .comment { color: #6a737d; }
+    .white { color: #fff; }
 
     .project-card {
       background: #1a1a1a;
@@ -196,17 +201,19 @@ interface Project {
       left: 0;
       right: 0;
       opacity: 0;
-      transform: translateY(0);
       border: 1px solid rgba(100, 108, 255, 0.2);
       transition: all 0.3s ease;
-      z-index: 2;
       pointer-events: none;
+      cursor: pointer;
     }
 
     .project-card.visible {
       opacity: 1;
-      position: relative;
       pointer-events: auto;
+    }
+
+    .project-card.expanded {
+      position: relative;
     }
 
     .project-card h3 {
@@ -215,17 +222,30 @@ interface Project {
       font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
     }
 
+    .project-content {
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
     .project-card p {
       color: #888;
       margin-bottom: 15px;
       line-height: 1.5;
       font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+    }
+
+    .project-content.expanded p {
+      -webkit-line-clamp: unset;
     }
 
     .tech-container {
       display: flex;
       gap: 8px;
-      flex-wrap: wrap;
     }
 
     .tech-badge {
@@ -253,6 +273,10 @@ interface Project {
       animation: sweepRight 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     }
 
+    .code-section.transforming .code-line {
+      animation: fadeOut 0.2s forwards;
+    }
+
     @keyframes sweepRight {
       0% {
         transform: scaleX(0);
@@ -267,10 +291,6 @@ interface Project {
         transform-origin: right;
         background: rgba(100, 108, 255, 0.1);
       }
-    }
-
-    .code-section.transforming .code-line {
-      animation: fadeOut 0.2s forwards;
     }
 
     @keyframes fadeOut {
@@ -298,8 +318,8 @@ export class AnimatedProjectsComponent implements OnInit {
         { text: "})", class: "purple" }
       ],
       title: "ChatHub",
-      description: "Modern real-time chat app with dark mode interface and multiple channels.",
-      tech: ["Angular", "TailwindCSS"]
+      description: "Modern real-time chat app with dark mode interface and multiple channels. Features include user presence indicators, message reactions, file sharing, and end-to-end encryption. The app supports both private messaging and public channels, with advanced moderation tools for channel administrators.",
+      tech: ["Angular", "Socket.io", "TailwindCSS", "Firebase"]
     },
     techSpec: {
       lines: [
@@ -313,8 +333,8 @@ export class AnimatedProjectsComponent implements OnInit {
         { text: "})", class: "purple" }
       ],
       title: "TechSpec",
-      description: "Modern e-commerce platform with responsive design.",
-      tech: ["Angular", "TailwindCSS"]
+      description: "Modern e-commerce platform with responsive design. Features a dynamic product catalog, real-time inventory tracking, advanced search with filters, secure payment processing, and an intuitive admin dashboard for managing products and orders.",
+      tech: ["Angular", "NgRx", "Stripe", "TailwindCSS"]
     },
     easyTrade: {
       lines: [
@@ -328,8 +348,8 @@ export class AnimatedProjectsComponent implements OnInit {
         { text: "})", class: "purple" }
       ],
       title: "EasyTrade",
-      description: "Intuitive trading platform for beginners with real-time data.",
-      tech: ["Angular", "TailwindCSS"]
+      description: "Intuitive trading platform for beginners with real-time data. Features interactive charts with technical indicators, portfolio tracking, automated trading strategies, and comprehensive educational resources for new traders.",
+      tech: ["Angular", "D3.js", "WebSocket", "TailwindCSS"]
     }
   };
 
@@ -340,6 +360,7 @@ export class AnimatedProjectsComponent implements OnInit {
       height: 0,
       isTransforming: false,
       showCard: false,
+      isExpanded: false,
       project: null
     }));
   }
@@ -353,6 +374,21 @@ export class AnimatedProjectsComponent implements OnInit {
       await this.sleep(200);
       await this.transformToCard(project, sectionIndex);
       await this.sleep(300);
+    }
+  }
+
+  expandProject(section: any) {
+    if (!section.showCard) return;
+
+    section.isExpanded = !section.isExpanded;
+
+    if (section.isExpanded) {
+      // Dajemy czas na animację przed zmianą height
+      setTimeout(() => {
+        section.height = 'auto';
+      }, 10);
+    } else {
+      section.height = 145;
     }
   }
 
@@ -382,8 +418,6 @@ export class AnimatedProjectsComponent implements OnInit {
     section.showCard = true;
 
     await this.sleep(250);
-
-    await this.sleep(100);
     section.height = 145;
   }
 
