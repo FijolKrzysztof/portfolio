@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code To UI - Dynamic Transform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Monaco', 'Menlo', monospace;
+        }
+
+        body {
+            background: #0a0a0a;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .start-button {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 16px 32px;
+            background: transparent;
+            border: 1px solid #646cff;
+            color: #646cff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .start-button:hover {
+            background: #646cff;
+            color: #fff;
+            transform: translate(-50%, -50%) scale(1.05);
+        }
+
+        .container {
+            width: 600px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .container.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .code-editor {
+            background: #1a1a1a;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 30px rgba(100, 108, 255, 0.1);
+        }
+
+        .editor-header {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot:nth-child(1) { background: #ff5f56; }
+        .dot:nth-child(2) { background: #ffbd2e; }
+        .dot:nth-child(3) { background: #27c93f; }
+
+        .animation-container {
+            position: relative;
+        }
+
+        .section-wrapper {
+            position: relative;
+            margin-bottom: 12px;
+            min-height: 50px;
+        }
+
+        .section-wrapper:last-child {
+            margin-bottom: 0;
+        }
+
+        .code-section {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background: transparent;
+            z-index: 1;
+        }
+
+        .code-line {
+            min-height: 24px;
+            opacity: 0;
+            transform: translateY(5px);
+            transition: all 0.2s ease;
+        }
+
+        .code-line.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .purple { color: #b392f0; }
+        .blue { color: #79b8ff; }
+        .yellow { color: #ffab70; }
+        .green { color: #85e89d; }
+        .orange { color: #ffab70; }
+        .comment { color: #6a737d; }
+
+        .project-card {
+            background: #1a1a1a;
+            border-radius: 8px;
+            padding: 20px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            opacity: 0;
+            transform: translateY(0);
+            border: 1px solid rgba(100, 108, 255, 0.2);
+            transition: all 0.3s ease;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .project-card.visible {
+            opacity: 1;
+            position: relative;
+            pointer-events: auto;
+        }
+
+        .transform-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(100, 108, 255, 0.1);
+            transform-origin: left;
+            transform: scaleX(0);
+            z-index: 3;
+        }
+
+        .transform-overlay.active {
+            animation: sweepRight 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes sweepRight {
+            0% {
+                transform: scaleX(0);
+                background: rgba(100, 108, 255, 0.1);
+            }
+            50% {
+                transform: scaleX(1);
+                background: rgba(100, 108, 255, 0.2);
+            }
+            100% {
+                transform: scaleX(0);
+                transform-origin: right;
+                background: rgba(100, 108, 255, 0.1);
+            }
+        }
+
+        .code-section.transforming .code-line {
+            animation: fadeOut 0.2s forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: translateX(10px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <button id="startButton" class="start-button">Show My Projects ></button>
+
+    <div id="mainContainer" class="container">
+        <div class="code-editor">
+            <div class="editor-header">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+            <div id="animationContainer" class="animation-container"></div>
+        </div>
+    </div>
+
+    <script>
+        const projects = {
+            chatHub: {
+                lines: [
+                    { text: "// ChatHub - Real-time messaging", class: "comment" },
+                    { text: "@Component({", class: "purple" },
+                    { text: "  selector: 'chat-hub',", class: "blue" },
+                    { text: "  template: `", class: "white" },
+                    { text: "    <div class=\"chat-container\">", class: "orange" },
+                    { text: "      <message-list/>", class: "orange" },
+                    { text: "    </div>`", class: "orange" },
+                    { text: "})", class: "purple" }
+                ],
+                title: "ChatHub",
+                description: "Modern real-time chat app with dark mode interface and multiple channels.",
+                tech: ["Angular", "TailwindCSS"]
+            },
+            techSpec: {
+                lines: [
+                    { text: "// TechSpec - Modern store", class: "comment" },
+                    { text: "@Component({", class: "purple" },
+                    { text: "  selector: 'tech-spec',", class: "blue" },
+                    { text: "  template: `", class: "white" },
+                    { text: "    <div class=\"store\">", class: "orange" },
+                    { text: "      <product-grid/>", class: "orange" },
+                    { text: "    </div>`", class: "orange" },
+                    { text: "})", class: "purple" }
+                ],
+                title: "TechSpec",
+                description: "Modern e-commerce platform with responsive design.",
+                tech: ["Angular", "TailwindCSS"]
+            },
+            easyTrade: {
+                lines: [
+                    { text: "// EasyTrade - Trading made simple", class: "comment" },
+                    { text: "@Component({", class: "purple" },
+                    { text: "  selector: 'easy-trade',", class: "blue" },
+                    { text: "  template: `", class: "white" },
+                    { text: "    <div class=\"trading-app\">", class: "orange" },
+                    { text: "      <market-chart/>", class: "orange" },
+                    { text: "    </div>`", class: "orange" },
+                    { text: "})", class: "purple" }
+                ],
+                title: "EasyTrade",
+                description: "Intuitive trading platform for beginners with real-time data.",
+                tech: ["Angular", "TailwindCSS"]
+            }
+        };
+
+        async function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function createProjectCard(project) {
+            const card = document.createElement('div');
+            card.className = 'project-card';
+            card.innerHTML = `
+                <h3 style="font-size: 1.5rem; margin-bottom: 10px; font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;">${project.title}</h3>
+                <p style="color: #888; margin-bottom: 15px; line-height: 1.5; font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;">${project.description}</p>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    ${project.tech.map(t => `<span style="background: rgba(100, 108, 255, 0.1); color: #646cff; padding: 4px 12px; border-radius: 100px; font-size: 0.8rem; font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;">${t}</span>`).join('')}
+                </div>
+            `;
+            return card;
+        }
+
+        async function typeCode(project) {
+            const container = document.getElementById('animationContainer');
+            const wrapper = document.createElement('div');
+            wrapper.className = 'section-wrapper';
+            
+            const section = document.createElement('div');
+            section.className = 'code-section';
+            
+            const overlay = document.createElement('div');
+            overlay.className = 'transform-overlay';
+            section.appendChild(overlay);
+            
+            wrapper.appendChild(section);
+            container.appendChild(wrapper);
+
+            // Set initial height for wrapper
+            const height = project.lines.length * 24 + 40; // line height * lines + padding
+            wrapper.style.height = `${height}px`;
+
+            for (const line of project.lines) {
+                const lineElement = document.createElement('div');
+                lineElement.className = 'code-line';
+                const textElement = document.createElement('span');
+                textElement.className = line.class;
+                lineElement.appendChild(textElement);
+                section.appendChild(lineElement);
+
+                for (const char of line.text) {
+                    textElement.textContent += char;
+                    await sleep(Math.random() * 10 + 5);
+                }
+
+                lineElement.classList.add('visible');
+                await sleep(20);
+            }
+
+            return { section, wrapper };
+        }
+
+        async function transformToCard(section, wrapper, project) {
+            section.classList.add('transforming');
+            
+            const card = createProjectCard(project);
+            wrapper.appendChild(card);
+            
+            // Start overlay animation
+            section.querySelector('.transform-overlay').classList.add('active');
+            
+            // Time the card appearance with the overlay
+            await sleep(150);
+            card.classList.add('visible');
+            
+            await sleep(250);
+            section.style.opacity = '0';
+            
+            // Update wrapper height to match card
+            await sleep(100);
+            wrapper.style.height = `${card.offsetHeight}px`;
+        }
+
+        async function startAnimation() {
+            document.getElementById('startButton').style.display = 'none';
+            document.getElementById('mainContainer').classList.add('visible');
+            
+            for (const [key, project] of Object.entries(projects)) {
+                const { section, wrapper } = await typeCode(project);
+                await sleep(200);
+                await transformToCard(section, wrapper, project);
+                await sleep(300);
+            }
+        }
+
+        document.getElementById('startButton').onclick = startAnimation;
+    </script>
+</body>
+</html>

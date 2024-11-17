@@ -1,0 +1,184 @@
+// code-to-ui.component.scss
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Monaco', 'Menlo', monospace;
+}
+
+:host {
+  display: block;
+  background: #0a0a0a;
+  color: #fff;
+  min-height: 100vh;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.start-button {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 16px 32px;
+  background: transparent;
+  border: 1px solid #646cff;
+  color: #646cff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #646cff;
+    color: #fff;
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+}
+
+.container {
+  width: 600px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+
+  &.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.code-editor {
+  background: #1a1a1a;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 0 30px rgba(100, 108, 255, 0.1);
+}
+
+.editor-header {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+
+  &:nth-child(1) { background: #ff5f56; }
+  &:nth-child(2) { background: #ffbd2e; }
+  &:nth-child(3) { background: #27c93f; }
+}
+
+.animation-container {
+  position: relative;
+}
+
+.section-wrapper {
+  position: relative;
+  margin-bottom: 12px;
+  min-height: 50px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.code-section {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  background: transparent;
+  z-index: 1;
+
+  &.transforming .code-line {
+    animation: fadeOut 0.2s forwards;
+  }
+}
+
+.code-line {
+  min-height: 24px;
+  opacity: 0;
+  transform: translateY(5px);
+  transition: all 0.2s ease;
+
+  &.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.purple { color: #b392f0; }
+.blue { color: #79b8ff; }
+.yellow { color: #ffab70; }
+.green { color: #85e89d; }
+.orange { color: #ffab70; }
+.comment { color: #6a737d; }
+
+.project-card {
+  background: #1a1a1a;
+  border-radius: 8px;
+  padding: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  transform: translateY(0);
+  border: 1px solid rgba(100, 108, 255, 0.2);
+  transition: all 0.3s ease;
+  z-index: 2;
+  pointer-events: none;
+
+  &.visible {
+    opacity: 1;
+    position: relative;
+    pointer-events: auto;
+  }
+}
+
+.transform-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(100, 108, 255, 0.1);
+  transform-origin: left;
+  transform: scaleX(0);
+  z-index: 3;
+
+  &.active {
+    animation: sweepRight 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+}
+
+@keyframes sweepRight {
+  0% {
+    transform: scaleX(0);
+    background: rgba(100, 108, 255, 0.1);
+  }
+  50% {
+    transform: scaleX(1);
+    background: rgba(100, 108, 255, 0.2);
+  }
+  100% {
+    transform: scaleX(0);
+    transform-origin: right;
+    background: rgba(100, 108, 255, 0.1);
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+}
