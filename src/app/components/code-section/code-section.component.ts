@@ -22,13 +22,16 @@ import { CodeLine } from '../../types/types';
       top: 0;
       left: 0;
       right: 0;
-      padding: 20px;
+      padding: 16px;
       border-radius: 8px;
       transition: all 0.3s ease;
       background: transparent;
       z-index: 1;
       font-size: 14px;
       line-height: 1.5;
+      height: fit-content;
+      display: flex;
+      flex-direction: column;
     }
 
     .code-line {
@@ -38,6 +41,8 @@ import { CodeLine } from '../../types/types';
       transition: all 0.2s ease;
       white-space: pre;
       font-family: 'Monaco', 'Menlo', monospace;
+      display: flex;
+      align-items: center;
     }
 
     .code-line.visible {
@@ -58,7 +63,8 @@ import { CodeLine } from '../../types/types';
       top: 0;
       left: 0;
       right: 0;
-      height: 100%;
+      height: calc(100% - 32px);
+      margin: 16px;
       background: rgba(100, 108, 255, 0.1);
       transform-origin: left;
       transform: scaleX(0);
