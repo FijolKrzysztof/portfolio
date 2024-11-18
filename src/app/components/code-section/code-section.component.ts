@@ -64,7 +64,6 @@ import { CodeLine } from '../../types/types';
       left: 0;
       right: 0;
       height: calc(100% - 32px);
-      margin: 16px;
       background: rgba(100, 108, 255, 0.1);
       transform-origin: left;
       transform: scaleX(0);

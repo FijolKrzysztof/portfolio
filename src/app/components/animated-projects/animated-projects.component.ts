@@ -108,11 +108,12 @@ export class AnimatedProjectsComponent implements OnInit {
         { isVisible: false, text: "})", class: "purple" }
       ],
       title: "ChatHub",
-      icon: `<svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
-    <rect width="256" height="256" fill="none"/>
-    <path fill="currentColor" d="M128 24a104 104 0 0 0-91.2 154l-8.5 30A12 12 0 0 0 40 220l30-8.5A104 104 0 1 0 128 24zm0 192a88 88 0 0 1-44.9-12.3 12 12 0 0 0-6.1-1.7 12 12 0 0 0-3.3.5l-21.1 6 6-21.1a12 12 0 0 0-1.2-9.4A88 88 0 1 1 128 216z"/>
-    <path fill="currentColor" d="M82 108a14 14 0 1 1 14-14 14 14 0 0 1-14 14zm46 0a14 14 0 1 1 14-14 14 14 0 0 1-14 14zm46 0a14 14 0 1 1 14-14 14 14 0 0 1-14 14z"/>
-  </svg>`,
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+  <path d="M12 21a8 8 0 0 0 8-8c0-3.5-2-6.5-5-7.5C15 5 14 4 12 4c-2 0-3 1-3 2.5C6 7.5 4 10.5 4 13a8 8 0 0 0 8 8Z" />
+  <path d="M8 13s1.5 2 4 2 4-2 4-2" />
+  <path d="M9 10h.01" />
+  <path d="M15 10h.01" />
+</svg>`,
       shortDescription: "AI-powered chat platform with multiple bot personalities",
       description: "Advanced conversational AI platform featuring multiple chatbot personalities, each with unique expertise and communication styles. Users can engage in real-time conversations with AI assistants specialized in various domains - from technical support to creative writing. The platform includes features like conversation history, personality switching, and natural language understanding.",
       tech: ["Angular", "OpenAI", "Socket.io", "TailwindCSS"],
@@ -130,9 +131,12 @@ export class AnimatedProjectsComponent implements OnInit {
         { isVisible: false, text: "})", class: "purple" }
       ],
       title: "TechSpec",
-      icon: `<svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
-        <path d="M216 40H40a16 16 0 0 0-16 16v144a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a16 16 0 0 0-16-16zm0 160H40V56h176v144zM80 84a12 12 0 0 1 12-12h72a12 12 0 0 1 0 24H92a12 12 0 0 1-12-12zm0 48a12 12 0 0 1 12-12h72a12 12 0 0 1 0 24H92a12 12 0 0 1-12-12zm0 48a12 12 0 0 1 12-12h72a12 12 0 0 1 0 24H92a12 12 0 0 1-12-12z"/>
-      </svg>`,
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+  <path d="M20 7h-3m-1 0h-2M4 7h10" />
+  <path d="M20 12h-7m-1 0H4" />
+  <path d="M20 17H4" />
+  <rect x="3" y="3" width="18" height="18" rx="2" />
+</svg>`,
       shortDescription: "Modern e-commerce platform for tech products",
       description: "Feature-rich e-commerce platform designed specifically for technology products. Includes advanced filtering, real-time inventory tracking, detailed product specifications, customer reviews, and secure payment processing. The admin dashboard provides comprehensive analytics and inventory management tools.",
       tech: ["Angular", "NgRx", "Stripe", "TailwindCSS"],
@@ -150,10 +154,11 @@ export class AnimatedProjectsComponent implements OnInit {
         { isVisible: false, text: "})", class: "purple" }
       ],
       title: "EasyTrade",
-      icon: `<svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
-        <path d="M128 24a104 104 0 1 0 104 104A104.2 104.2 0 0 0 128 24zm0 192a88 88 0 1 1 88-88 88.1 88.1 0 0 1-88 88zm44-92a12 12 0 0 1 0 24h-44a12 12 0 0 1-12-12V84a12 12 0 0 1 24 0v40z"/>
-        <path d="M76 140l36-36m68 0l-36 36m-32-80v40m64-40v40"/>
-      </svg>`,
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+  <path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z" />
+  <path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9" />
+  <path d="M12 3v6" />
+</svg>`,
       shortDescription: "Intuitive cryptocurrency trading platform",
       description: "User-friendly cryptocurrency trading platform designed for both beginners and experienced traders. Features real-time price charts, portfolio tracking, automated trading strategies, and comprehensive educational resources. Includes advanced charting tools, multiple timeframe analysis, and trade automation capabilities.",
       tech: ["Angular", "D3.js", "WebSocket", "TailwindCSS"],
