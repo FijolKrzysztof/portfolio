@@ -58,10 +58,11 @@ import { Project, ProjectSection } from '../../types/types';
     }
 
     .container {
-      width: 800px;
+      width: min(800px, 100%);
       opacity: 0;
       visibility: hidden;
       transition: all 0.3s ease;
+      padding: 0 20px;
     }
 
     .container.visible {
@@ -74,6 +75,7 @@ import { Project, ProjectSection } from '../../types/types';
       border-radius: 8px;
       padding: 20px;
       box-shadow: 0 0 30px rgba(100, 108, 255, 0.1);
+      width: 100%;
     }
 
     .animation-container {
@@ -106,8 +108,16 @@ export class AnimatedProjectsComponent implements OnInit {
         { isVisible: false, text: "})", class: "purple" }
       ],
       title: "ChatHub",
-      description: "Modern real-time chat app with dark mode interface and multiple channels. Features include user presence indicators, message reactions, file sharing, and end-to-end encryption. The app supports both private messaging and public channels, with advanced moderation tools for channel administrators.",
-      tech: ["Angular", "Socket.io", "TailwindCSS", "Firebase"]
+      icon: `<svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+    <rect width="256" height="256" fill="none"/>
+    <path fill="currentColor" d="M128 24a104 104 0 0 0-91.2 154l-8.5 30A12 12 0 0 0 40 220l30-8.5A104 104 0 1 0 128 24zm0 192a88 88 0 0 1-44.9-12.3 12 12 0 0 0-6.1-1.7 12 12 0 0 0-3.3.5l-21.1 6 6-21.1a12 12 0 0 0-1.2-9.4A88 88 0 1 1 128 216z"/>
+    <path fill="currentColor" d="M82 108a14 14 0 1 1 14-14 14 14 0 0 1-14 14zm46 0a14 14 0 1 1 14-14 14 14 0 0 1-14 14zm46 0a14 14 0 1 1 14-14 14 14 0 0 1-14 14z"/>
+  </svg>`,
+      shortDescription: "AI-powered chat platform with multiple bot personalities",
+      description: "Advanced conversational AI platform featuring multiple chatbot personalities, each with unique expertise and communication styles. Users can engage in real-time conversations with AI assistants specialized in various domains - from technical support to creative writing. The platform includes features like conversation history, personality switching, and natural language understanding.",
+      tech: ["Angular", "OpenAI", "Socket.io", "TailwindCSS"],
+      githubUrl: "https://github.com/yourusername/chat-hub",
+      demoUrl: "https://chat-hub-demo.vercel.app"
     },
     techSpec: {
       lines: [
@@ -120,8 +130,14 @@ export class AnimatedProjectsComponent implements OnInit {
         { isVisible: false, text: "})", class: "purple" }
       ],
       title: "TechSpec",
-      description: "Modern e-commerce platform with responsive design. Features a dynamic product catalog, real-time inventory tracking, advanced search with filters, secure payment processing, and an intuitive admin dashboard for managing products and orders.",
-      tech: ["Angular", "NgRx", "Stripe", "TailwindCSS"]
+      icon: `<svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+        <path d="M216 40H40a16 16 0 0 0-16 16v144a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a16 16 0 0 0-16-16zm0 160H40V56h176v144zM80 84a12 12 0 0 1 12-12h72a12 12 0 0 1 0 24H92a12 12 0 0 1-12-12zm0 48a12 12 0 0 1 12-12h72a12 12 0 0 1 0 24H92a12 12 0 0 1-12-12zm0 48a12 12 0 0 1 12-12h72a12 12 0 0 1 0 24H92a12 12 0 0 1-12-12z"/>
+      </svg>`,
+      shortDescription: "Modern e-commerce platform for tech products",
+      description: "Feature-rich e-commerce platform designed specifically for technology products. Includes advanced filtering, real-time inventory tracking, detailed product specifications, customer reviews, and secure payment processing. The admin dashboard provides comprehensive analytics and inventory management tools.",
+      tech: ["Angular", "NgRx", "Stripe", "TailwindCSS"],
+      githubUrl: "https://github.com/yourusername/tech-spec",
+      demoUrl: "https://tech-spec-demo.vercel.app"
     },
     easyTrade: {
       lines: [
@@ -134,8 +150,15 @@ export class AnimatedProjectsComponent implements OnInit {
         { isVisible: false, text: "})", class: "purple" }
       ],
       title: "EasyTrade",
-      description: "Intuitive trading platform for beginners with real-time data. Features interactive charts with technical indicators, portfolio tracking, automated trading strategies, and comprehensive educational resources for new traders.",
-      tech: ["Angular", "D3.js", "WebSocket", "TailwindCSS"]
+      icon: `<svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+        <path d="M128 24a104 104 0 1 0 104 104A104.2 104.2 0 0 0 128 24zm0 192a88 88 0 1 1 88-88 88.1 88.1 0 0 1-88 88zm44-92a12 12 0 0 1 0 24h-44a12 12 0 0 1-12-12V84a12 12 0 0 1 24 0v40z"/>
+        <path d="M76 140l36-36m68 0l-36 36m-32-80v40m64-40v40"/>
+      </svg>`,
+      shortDescription: "Intuitive cryptocurrency trading platform",
+      description: "User-friendly cryptocurrency trading platform designed for both beginners and experienced traders. Features real-time price charts, portfolio tracking, automated trading strategies, and comprehensive educational resources. Includes advanced charting tools, multiple timeframe analysis, and trade automation capabilities.",
+      tech: ["Angular", "D3.js", "WebSocket", "TailwindCSS"],
+      githubUrl: "https://github.com/yourusername/easy-trade",
+      demoUrl: "https://easy-trade-demo.vercel.app"
     }
   };
 
@@ -167,14 +190,7 @@ export class AnimatedProjectsComponent implements OnInit {
     if (!section.showCard) return;
 
     section.isExpanded = !section.isExpanded;
-
-    if (section.isExpanded) {
-      setTimeout(() => {
-        section.height = 'auto';
-      }, 10);
-    } else {
-      section.height = 120;
-    }
+    section.height = section.isExpanded ? 140 : 120;
   }
 
   private async typeCode(project: Project, sectionIndex: number) {
