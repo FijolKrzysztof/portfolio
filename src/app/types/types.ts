@@ -5,16 +5,20 @@ export interface CodeLine {
 }
 
 export interface Project {
-  lines: CodeLine[];
+  lines: Array<{ isVisible: boolean; text: string; class: string; }>;
   title: string;
+  icon: string;
+  shortDescription: string;
   description: string;
   tech: string[];
+  githubUrl?: string;
+  demoUrl?: string;
 }
 
 export interface ProjectSection {
   id: number;
-  visibleLines: CodeLine[];
-  height: number | 'auto';
+  visibleLines: Array<{ isVisible: boolean; text: string; class: string; }>;
+  height: number;
   isTransforming: boolean;
   showCard: boolean;
   isExpanded: boolean;
