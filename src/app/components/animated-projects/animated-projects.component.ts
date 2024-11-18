@@ -88,10 +88,6 @@ import { Project, ProjectSection } from '../../types/types';
       transition: height 0.3s ease;
       margin-bottom: 40px;
     }
-
-    .section-wrapper:last-child {
-      margin-bottom: 0;
-    }
   `]
 })
 export class AnimatedProjectsComponent implements OnInit {
