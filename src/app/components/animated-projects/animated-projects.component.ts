@@ -99,12 +99,23 @@ export class AnimatedProjectsComponent implements OnInit {
   private readonly projects: Record<string, Project> = {
     chatHub: {
       lines: [
-        { isVisible: false, text: "@Component({", class: "purple" },
-        { isVisible: false, text: "  selector: 'chat-hub',", class: "blue" },
-        { isVisible: false, text: "  template: `", class: "white" },
-        { isVisible: false, text: "    <div class=\"chat-container\">", class: "orange" },
-        { isVisible: false, text: "      <message-list/>", class: "orange" },
-        { isVisible: false, text: "    </div>`", class: "orange" },
+        { isVisible: false, text: "@ProjectCard({", class: "purple" },
+        { isVisible: false, text: "  selector: 'app-chat-hub',", class: "white" },
+        { isVisible: false, text: "  styles: [", class: "blue" },
+        { isVisible: false, text: "    surface: {", class: "orange" },
+        { isVisible: false, text: "      display: 'flex',", class: "yellow" },
+        { isVisible: false, text: "      background: '#1e1e2e',", class: "yellow" },
+        { isVisible: false, text: "      borderRadius: '12px',", class: "yellow" },
+        { isVisible: false, text: "      gap: '1.25rem'", class: "yellow" },
+        { isVisible: false, text: "    },", class: "orange" },
+        { isVisible: false, text: "    // Card layout configuration", class: "comment" },
+        { isVisible: false, text: "    title: 'ChatHub',", class: "green" },
+        { isVisible: false, text: "    icon: `", class: "blue" },
+        { isVisible: false, text: "      <svg viewBox=\"0 0 24 24\">", class: "white" },
+        { isVisible: false, text: "        <path d=\"M12 21a8 8 0 0 0 8-8c0-3.5-2-6.5-5-7.5\"/>", class: "purple" },
+        { isVisible: false, text: "        <path d=\"M8 13s1.5 2 4 2 4-2 4-2\"/>", class: "purple" },
+        { isVisible: false, text: "      </svg>", class: "white" },
+        { isVisible: false, text: "    `,", class: "blue" },
         { isVisible: false, text: "})", class: "purple" }
       ],
       title: "ChatHub",
@@ -122,12 +133,23 @@ export class AnimatedProjectsComponent implements OnInit {
     },
     techSpec: {
       lines: [
-        { isVisible: false, text: "@Component({", class: "purple" },
-        { isVisible: false, text: "  selector: 'tech-spec',", class: "blue" },
-        { isVisible: false, text: "  template: `", class: "white" },
-        { isVisible: false, text: "    <div class=\"store\">", class: "orange" },
-        { isVisible: false, text: "      <product-grid/>", class: "orange" },
-        { isVisible: false, text: "    </div>`", class: "orange" },
+        { isVisible: false, text: "@ProjectCard({", class: "purple" },
+        { isVisible: false, text: "  selector: 'app-tech-spec',", class: "white" },
+        { isVisible: false, text: "  styles: [", class: "blue" },
+        { isVisible: false, text: "    surface: {", class: "orange" },
+        { isVisible: false, text: "      display: 'flex',", class: "yellow" },
+        { isVisible: false, text: "      background: '#1e1e2e',", class: "yellow" },
+        { isVisible: false, text: "      borderRadius: '12px',", class: "yellow" },
+        { isVisible: false, text: "      gap: '1.25rem'", class: "yellow" },
+        { isVisible: false, text: "    },", class: "orange" },
+        { isVisible: false, text: "    // Tech spec component styles", class: "comment" },
+        { isVisible: false, text: "    title: 'TechSpec',", class: "green" },
+        { isVisible: false, text: "    icon: `", class: "blue" },
+        { isVisible: false, text: "      <svg viewBox=\"0 0 24 24\">", class: "white" },
+        { isVisible: false, text: "        <rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\"/>", class: "purple" },
+        { isVisible: false, text: "        <path d=\"M20 7h-3m-1 0h-2M4 7h10\"/>", class: "purple" },
+        { isVisible: false, text: "      </svg>", class: "white" },
+        { isVisible: false, text: "    `,", class: "blue" },
         { isVisible: false, text: "})", class: "purple" }
       ],
       title: "TechSpec",
@@ -145,12 +167,23 @@ export class AnimatedProjectsComponent implements OnInit {
     },
     easyTrade: {
       lines: [
-        { isVisible: false, text: "@Component({", class: "purple" },
-        { isVisible: false, text: "  selector: 'easy-trade',", class: "blue" },
-        { isVisible: false, text: "  template: `", class: "white" },
-        { isVisible: false, text: "    <div class=\"trading-app\">", class: "orange" },
-        { isVisible: false, text: "      <market-chart/>", class: "orange" },
-        { isVisible: false, text: "    </div>`", class: "orange" },
+        { isVisible: false, text: "@ProjectCard({", class: "purple" },
+        { isVisible: false, text: "  selector: 'app-easy-trade',", class: "white" },
+        { isVisible: false, text: "  styles: [", class: "blue" },
+        { isVisible: false, text: "    surface: {", class: "orange" },
+        { isVisible: false, text: "      display: 'flex',", class: "yellow" },
+        { isVisible: false, text: "      background: '#1e1e2e',", class: "yellow" },
+        { isVisible: false, text: "      borderRadius: '12px',", class: "yellow" },
+        { isVisible: false, text: "      gap: '1.25rem'", class: "yellow" },
+        { isVisible: false, text: "    },", class: "orange" },
+        { isVisible: false, text: "    // Trading app interface", class: "comment" },
+        { isVisible: false, text: "    title: 'EasyTrade',", class: "green" },
+        { isVisible: false, text: "    icon: `", class: "blue" },
+        { isVisible: false, text: "      <svg viewBox=\"0 0 24 24\">", class: "white" },
+        { isVisible: false, text: "        <path d=\"M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0\"/>", class: "purple" },
+        { isVisible: false, text: "        <path d=\"M12 3v6\"/>", class: "purple" },
+        { isVisible: false, text: "      </svg>", class: "white" },
+        { isVisible: false, text: "    `,", class: "blue" },
         { isVisible: false, text: "})", class: "purple" }
       ],
       title: "EasyTrade",
@@ -200,7 +233,7 @@ export class AnimatedProjectsComponent implements OnInit {
 
   private async typeCode(project: Project, sectionIndex: number) {
     const section = this.projectSections[sectionIndex];
-    section.height = project.lines.length * 24 + 40;
+    section.height = project.lines.length * 16;
 
     for (const line of project.lines) {
       const newLine = { ...line, isVisible: false };

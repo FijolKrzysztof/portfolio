@@ -22,29 +22,31 @@ import { CodeLine } from '../../types/types';
       top: 0;
       left: 0;
       right: 0;
-      padding: 16px;
+      padding: 12px;
       border-radius: 8px;
       transition: all 0.3s ease;
       background: transparent;
       z-index: 1;
-      font-size: 14px;
-      line-height: 1.5;
+      font-size: 12px;
+      line-height: 1.2;
       height: fit-content;
       display: flex;
       flex-direction: column;
     }
 
     .code-line {
-      min-height: 24px;
+      min-height: 16px; /* Zmniejszone z 24px */
       opacity: 0;
-      transform: translateY(5px);
+      transform: translateY(3px); /* Zmniejszone z 5px */
       transition: all 0.2s ease;
       white-space: pre;
       font-family: 'Monaco', 'Menlo', monospace;
       display: flex;
       align-items: center;
+      padding: 0 0 1px; /* Dodane minimalne padding między liniami */
     }
 
+    /* Reszta styli pozostaje bez zmian */
     .code-line.visible {
       opacity: 1;
       transform: translateY(0);
@@ -63,7 +65,7 @@ import { CodeLine } from '../../types/types';
       top: 0;
       left: 0;
       right: 0;
-      height: calc(100% - 32px);
+      height: calc(100% - 24px); /* Zmniejszone z 32px */
       background: rgba(100, 108, 255, 0.1);
       transform-origin: left;
       transform: scaleX(0);
