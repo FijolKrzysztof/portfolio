@@ -7,7 +7,7 @@ import { CodeLine } from '../../types/types';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="code-section" [class.transforming]="isTransforming">
+    <div class="code-section" [class.transforming]="isTransforming" [class.hidden]="isTransforming">
       <div class="transform-overlay" [class.active]="isTransforming"></div>
       @for (line of visibleLines; track line) {
         <div class="code-line" [class.visible]="line.isVisible">
@@ -34,19 +34,23 @@ import { CodeLine } from '../../types/types';
       flex-direction: column;
     }
 
+    .code-section.hidden {
+      pointer-events: none;
+      visibility: hidden;
+    }
+
     .code-line {
-      min-height: 16px; /* Zmniejszone z 24px */
+      min-height: 16px;
       opacity: 0;
-      transform: translateY(3px); /* Zmniejszone z 5px */
+      transform: translateY(3px);
       transition: all 0.2s ease;
       white-space: pre;
       font-family: 'Monaco', 'Menlo', monospace;
       display: flex;
       align-items: center;
-      padding: 0 0 1px; /* Dodane minimalne padding między liniami */
+      padding: 0 0 1px;
     }
 
-    /* Reszta styli pozostaje bez zmian */
     .code-line.visible {
       opacity: 1;
       transform: translateY(0);
@@ -65,7 +69,7 @@ import { CodeLine } from '../../types/types';
       top: 0;
       left: 0;
       right: 0;
-      height: calc(100% - 24px); /* Zmniejszone z 32px */
+      height: calc(100% - 24px);
       background: rgba(100, 108, 255, 0.1);
       transform-origin: left;
       transform: scaleX(0);
