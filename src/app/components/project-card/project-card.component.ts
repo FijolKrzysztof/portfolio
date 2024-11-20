@@ -21,10 +21,10 @@ import { Project } from '../../types/types';
         <div class="content-section">
           <div class="header-content">
             <h3 class="card-title">{{ project.title }}</h3>
-            <p class="short-description">{{ project.shortDescription }}</p>
+            <p class="short-description hide-mobile">{{ project.shortDescription }}</p>
           </div>
 
-          <div class="action-buttons">
+          <div class="action-buttons hide-mobile">
             @if (project.demoUrl) {
               <a [href]="project.demoUrl" target="_blank" rel="noopener noreferrer" class="action-button demo">
                 <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none">
@@ -78,7 +78,7 @@ import { Project } from '../../types/types';
       overflow: hidden;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
       display: flex;
-      height: 120px;
+      height: 120px; /* Stała wysokość dla wszystkich breakpointów */
     }
 
     .project-card.visible {
@@ -223,15 +223,25 @@ import { Project } from '../../types/types';
         padding: 8px;
       }
 
-      .action-buttons {
-        flex-direction: column;
-      }
-
       .card-title {
         font-size: 1.1rem;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+      }
+
+      .content-section {
+        justify-content: center; /* Wycentruj tytuł w pionie */
+      }
+
+      .hide-mobile {
+        display: none;
+      }
+
+      /* Dostosowanie paddingu i odstępów dla zachowania proporcji przy stałej wysokości */
+      .icon-section {
+        display: flex;
+        align-items: center;
       }
     }
   `]
