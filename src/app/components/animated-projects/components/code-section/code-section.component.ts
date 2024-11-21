@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CodeLine } from '../../types/types';
+import { CodeLine } from '../../../../types/types';
 
 @Component({
   selector: 'app-code-section',

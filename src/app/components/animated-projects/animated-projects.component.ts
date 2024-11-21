@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { StartButtonComponent } from '../start-button/start-button.component';
-import { EditorHeaderComponent } from '../editor-header/editor-header.component';
-import { CodeSectionComponent } from '../code-section/code-section.component';
-import { ProjectCardComponent } from '../project-card/project-card.component';
+import { StartButtonComponent } from './components/start-button/start-button.component';
+import { EditorHeaderComponent } from './components/editor-header/editor-header.component';
+import { CodeSectionComponent } from './components/code-section/code-section.component';
+import { ProjectCardComponent } from './components/project-card/project-card.component';
 import { Project, ProjectSection } from '../../types/types';
 
 @Component({
