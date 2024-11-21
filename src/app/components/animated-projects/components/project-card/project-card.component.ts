@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Project } from '../../types/types';
+import { Project } from '../../../../types/types';
 
 @Component({
   selector: 'app-project-card',

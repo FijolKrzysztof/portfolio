@@ -3,11 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 // import { AnimatedProjectsComponent } from './components/code-to-ui.component';
 import { AnimatedProjectsComponent } from './components/animated-projects/animated-projects.component';
+import { SkillsProfileComponent } from './components/skills-radar/skills-profile.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [AnimatedProjectsComponent],
+  imports: [AnimatedProjectsComponent, SkillsProfileComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
