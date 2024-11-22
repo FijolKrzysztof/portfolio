@@ -49,23 +49,47 @@
 
     <!-- Main content -->
     <g [attr.transform]="'translate(' + width/2 + ',' + centerY + ')'">
-      <!-- Rotating circular guidelines -->
+
+      <!-- Zmodyfikowana struktura w skills-profile.component.html -->
       <g>
-        <circle [attr.r]="radius" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1" class="guideline">
-          <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="60s" repeatCount="indefinite"></animateTransform>
-        </circle>
+        <!-- Zewnętrzny okrąg -->
+        <g class="guideline-group">
+          <!-- Strefa interaktywna -->
+          <circle [attr.r]="radius" class="guideline-hitbox" />
+          <!-- Właściwa linia -->
+          <circle [attr.r]="radius" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1" class="guideline">
+            <animateTransform attributename="transform" type="rotate" from="0 0 0" to="360 0 0" dur="60s" repeatcount="indefinite"></animateTransform>
+          </circle>
+          <!-- Efekt ripple -->
+          <circle [attr.r]="radius" class="guideline-ripple" />
+        </g>
 
-        <circle [attr.r]="radius * 0.75" fill="none" stroke="rgba(255,255,255,0.09)" stroke-width="1" class="guideline">
-          <animateTransform attributeName="transform" type="rotate" from="360 0 0" to="0 0 0" dur="45s" repeatCount="indefinite"></animateTransform>
-        </circle>
+        <!-- Okrąg 75% -->
+        <g class="guideline-group">
+          <circle [attr.r]="radius * 0.75" class="guideline-hitbox" />
+          <circle [attr.r]="radius * 0.75" fill="none" stroke="rgba(255,255,255,0.09)" stroke-width="1" class="guideline">
+            <animateTransform attributename="transform" type="rotate" from="360 0 0" to="0 0 0" dur="45s" repeatcount="indefinite"></animateTransform>
+          </circle>
+          <circle [attr.r]="radius * 0.75" class="guideline-ripple" />
+        </g>
 
-        <circle [attr.r]="radius * 0.5" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1" class="guideline">
-          <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="30s" repeatCount="indefinite"></animateTransform>
-        </circle>
+        <!-- Okrąg 50% -->
+        <g class="guideline-group">
+          <circle [attr.r]="radius * 0.5" class="guideline-hitbox" />
+          <circle [attr.r]="radius * 0.5" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1" class="guideline">
+            <animateTransform attributename="transform" type="rotate" from="0 0 0" to="360 0 0" dur="30s" repeatcount="indefinite"></animateTransform>
+          </circle>
+          <circle [attr.r]="radius * 0.5" class="guideline-ripple" />
+        </g>
 
-        <circle [attr.r]="radius * 0.25" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1" class="guideline">
-          <animateTransform attributeName="transform" type="rotate" from="360 0 0" to="0 0 0" dur="20s" repeatCount="indefinite"></animateTransform>
-        </circle>
+        <!-- Okrąg 25% -->
+        <g class="guideline-group">
+          <circle [attr.r]="radius * 0.25" class="guideline-hitbox" />
+          <circle [attr.r]="radius * 0.25" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1" class="guideline">
+            <animateTransform attributename="transform" type="rotate" from="360 0 0" to="0 0 0" dur="20s" repeatcount="indefinite"></animateTransform>
+          </circle>
+          <circle [attr.r]="radius * 0.25" class="guideline-ripple" />
+        </g>
       </g>
 
       <!-- Rotating cross lines -->
