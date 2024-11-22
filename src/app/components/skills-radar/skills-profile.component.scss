@@ -19,142 +19,50 @@ svg {
 
 .skill-labels text {
   opacity: 1;
-  transition: all 0.3s ease;
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
 
-  &:hover {
-    font-size: 120%;
+  &:hover, &.hovered {
     fill: #60a5fa;
     filter: url(#hoverGlow);
   }
 }
 
 .skill-point {
-  transition: all 0.3s ease;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 
   circle {
-    transition: all 0.3s ease;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   &.active {
     circle {
       fill: #93c5fd;
       filter: url(#hoverGlow);
+      animation: skillPointPulse 1.5s infinite;
     }
   }
 }
 
-.skill-area {
-  transition: all 0.3s ease;
+.skill-area-base, .skill-area-overlay {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
 
   &:hover {
     filter: url(#hoverGlow);
-    opacity: 0.9 !important;
   }
 }
 
-.guideline {
-  transition: stroke-width 0.3s ease, opacity 0.3s ease;
-}
-
-.skill-label {
-  transition: all 0.3s ease;
-
-  &.hovered {
-    font-size: 120%;
-    fill: #60a5fa;
-    filter: url(#hoverGlow);
-  }
-}
-
-circle.hovered {
-  fill: #93c5fd;
-  filter: url(#hoverGlow);
-}
-
-// Dodaj te style do skills-profile.component.scss
-
-.guideline {
-  transition: stroke-width 0.3s ease, opacity 0.3s ease, stroke 0.3s ease;
-
-  &:hover {
-    stroke: rgba(255, 255, 255, 0.3);
-    stroke-width: 2;
-
-    // Zatrzymaj animację rotacji przy hoverze
-    animateTransform {
-      animation-play-state: paused;
-    }
-
-    // Dodaj efekt ripple
-    & + .guideline-ripple {
-      animation: ripple 1.5s cubic-bezier(0, 0.2, 0.8, 1) infinite;
-    }
-  }
-}
-
-// Nowa klasa dla efektu fali
-.guideline-ripple {
-  opacity: 0;
-  fill: none;
-  stroke: rgba(96, 165, 250, 0.3);
+.skill-area-overlay {
   pointer-events: none;
 }
 
-// Animacja fali
-@keyframes ripple {
-  0% {
-    transform: scale(1);
-    opacity: 0.5;
-  }
-  100% {
-    transform: scale(1.3);
-    opacity: 0;
-  }
-}
-
-// Dodaj płynną animację dla punktów przy hoverze na okręgu
-.skill-point {
-  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-
-  .guideline:hover ~ & {
-    &:nth-child(1) { transform: scale(1.2) translateX(10px); }
-    &:nth-child(2) { transform: scale(1.2) translateX(-10px); }
-    &:nth-child(3) { transform: scale(1.2) translateY(-10px); }
-    &:nth-child(4) { transform: scale(1.2) translateY(10px); }
-  }
-}
-
-// Animacja dla obszaru skilli przy hoverze na okręgu
-.skill-area {
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-
-  .guideline:hover ~ & {
-    transform: scale(1.05);
-    filter: url(#hoverGlow);
-    opacity: 0.9;
-  }
-}
-
-// Animacja dla labelek przy hoverze na okręgu
-.skill-label {
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-
-  .guideline:hover ~ & {
-    font-size: 110%;
-    fill: rgba(96, 165, 250, 0.8);
-  }
-}
-
-// Zmodyfikowane style w skills-profile.component.scss
-
-// Dodaj strefę interaktywną
 .guideline-hitbox {
-  fill: transparent; // Niewidoczne wypełnienie
-  stroke: transparent; // Niewidoczna ramka
-  stroke-width: 30px; // Szeroka strefa klikania
+  fill: transparent;
+  stroke: transparent;
+  stroke-width: 30px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   &:hover {
     & + .guideline {
@@ -169,15 +77,18 @@ circle.hovered {
     & ~ .guideline-ripple {
       animation: ripple 1.5s cubic-bezier(0, 0.2, 0.8, 1) infinite;
     }
+
+    & ~ .skill-point circle {
+      animation: skillPointPulse 1.5s infinite;
+    }
   }
 }
 
 .guideline {
-  transition: stroke-width 0.3s ease, opacity 0.3s ease, stroke 0.3s ease;
-  pointer-events: none; // Wyłączamy eventy na właściwej linii
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
 }
 
-// Efekt fali
 .guideline-ripple {
   opacity: 0;
   fill: none;
@@ -189,57 +100,12 @@ circle.hovered {
   0% {
     transform: scale(1);
     opacity: 0.5;
+    stroke-width: 1;
   }
   100% {
     transform: scale(1.3);
     opacity: 0;
-  }
-}
-
-// Animacje punktów
-.skill-point {
-  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-
-  .guideline-hitbox:hover ~ & {
-    &:nth-child(1) { transform: scale(1.2) translateX(10px); }
-    &:nth-child(2) { transform: scale(1.2) translateX(-10px); }
-    &:nth-child(3) { transform: scale(1.2) translateY(-10px); }
-    &:nth-child(4) { transform: scale(1.2) translateY(10px); }
-  }
-}
-
-// Animacja obszaru skilli
-.skill-area {
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-
-  .guideline-hitbox:hover ~ & {
-    transform: scale(1.05);
-    filter: url(#hoverGlow);
-    opacity: 0.9;
-  }
-}
-
-// Animacja labelek
-.skill-label {
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-
-  .guideline-hitbox:hover ~ & {
-    font-size: 110%;
-    fill: rgba(96, 165, 250, 0.8);
-  }
-}
-
-.skill-area {
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-
-  &:hover {
-    filter: url(#hoverGlow);
-    opacity: 0.9 !important;
-
-    & ~ .skill-point circle {
-      animation: skillPointPulse 1.5s infinite;
-    }
+    stroke-width: 0;
   }
 }
 
@@ -255,5 +121,35 @@ circle.hovered {
   100% {
     transform: scale(1);
     filter: brightness(1);
+  }
+}
+
+.skill-area-group {
+  &:hover {
+    .skill-area-base {
+      filter: url(#hoverGlow);
+    }
+
+    .skill-area-overlay {
+      opacity: 0.3;
+    }
+
+    & ~ .skill-point circle {
+      animation: skillPointPulse 1.5s infinite;
+    }
+  }
+}
+
+circle.hovered {
+  fill: #93c5fd;
+  filter: url(#hoverGlow);
+}
+
+.skill-label {
+  transition: fill 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.hovered {
+    fill: #60a5fa;
+    filter: url(#hoverGlow);
   }
 }

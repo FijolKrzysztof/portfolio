@@ -1,5 +1,5 @@
-<div [style.width]="containerWidth" class="container">
-  <svg [attr.viewBox]="viewBox" xmlns="http://www.w3.org/2000/svg">
+<div class="container" [style.width]="containerWidth">
+  <svg [attr.viewBox]="'0 0 ' + width + ' ' + height" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <radialGradient id="bg">
         <stop offset="0%" stop-color="#1e1b4b"></stop>
@@ -8,10 +8,16 @@
 
       <linearGradient id="skillGradient" x1="0" y1="0" x2="1" y2="1">
         <stop offset="0%" stop-color="rgba(59, 130, 246, 0.2)">
-          <animate attributeName="stop-color" values="rgba(59, 130, 246, 0.2);rgba(99, 102, 241, 0.2);rgba(59, 130, 246, 0.2)" dur="8s" repeatCount="indefinite"></animate>
+          <animate attributeName="stop-color"
+                   values="rgba(59, 130, 246, 0.2);rgba(99, 102, 241, 0.2);rgba(59, 130, 246, 0.2)"
+                   dur="8s"
+                   repeatCount="indefinite"></animate>
         </stop>
         <stop offset="100%" stop-color="rgba(37, 99, 235, 0.1)">
-          <animate attributeName="stop-color" values="rgba(37, 99, 235, 0.1);rgba(67, 56, 202, 0.1);rgba(37, 99, 235, 0.1)" dur="8s" repeatCount="indefinite"></animate>
+          <animate attributeName="stop-color"
+                   values="rgba(37, 99, 235, 0.1);rgba(67, 56, 202, 0.1);rgba(37, 99, 235, 0.1)"
+                   dur="8s"
+                   repeatCount="indefinite"></animate>
         </stop>
       </linearGradient>
 
@@ -20,13 +26,13 @@
           <animate attributeName="stop-color"
                    values="rgba(96, 165, 250, 0.4);rgba(147, 197, 253, 0.4);rgba(96, 165, 250, 0.4)"
                    dur="3s"
-                   repeatCount="indefinite" />
+                   repeatCount="indefinite"></animate>
         </stop>
         <stop offset="100%" stop-color="rgba(37, 99, 235, 0.2)">
           <animate attributeName="stop-color"
                    values="rgba(37, 99, 235, 0.2);rgba(59, 130, 246, 0.2);rgba(37, 99, 235, 0.2)"
                    dur="3s"
-                   repeatCount="indefinite" />
+                   repeatCount="indefinite"></animate>
         </stop>
       </linearGradient>
 
@@ -35,14 +41,10 @@
           <animate attributeName="baseFrequency"
                    values="0.01 0.01;0.015 0.01;0.01 0.01"
                    dur="10s"
-                   repeatCount="indefinite" />
+                   repeatCount="indefinite"></animate>
         </feTurbulence>
-        <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="5"></feDisplacementMap>
       </filter>
-
-      <clipPath id="skillAreaClip">
-        <path [attr.d]="getSkillPath()" />
-      </clipPath>
 
       <filter id="glow">
         <feGaussianBlur stdDeviation="3" result="coloredBlur"></feGaussianBlur>
@@ -74,78 +76,62 @@
     <rect x="0" y="0" [attr.width]="width" [attr.height]="height" fill="url(#grid)" [attr.rx]="borderRadius" />
 
     <!-- Title -->
-    <text [attr.x]="width/2" [attr.y]="titleY" fill="white" [attr.font-size]="fontSize" text-anchor="middle" font-weight="bold" font-family="Arial, sans-serif" class="profile-title">Skills Profile</text>
+    <text [attr.x]="width/2" [attr.y]="titleY" fill="white" [attr.font-size]="fontSize"
+          text-anchor="middle" font-weight="bold" font-family="Arial, sans-serif" class="profile-title">
+      Skills Profile
+    </text>
 
     <!-- Main content -->
     <g [attr.transform]="'translate(' + width/2 + ',' + centerY + ')'">
 
-      <!-- Zmodyfikowana struktura w skills-profile.component.html -->
-      <g>
-        <!-- Zewnętrzny okrąg -->
-        <g class="guideline-group">
-          <!-- Strefa interaktywna -->
-          <circle [attr.r]="radius" class="guideline-hitbox" />
-          <!-- Właściwa linia -->
-          <circle [attr.r]="radius" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1" class="guideline">
-            <animateTransform attributename="transform" type="rotate" from="0 0 0" to="360 0 0" dur="60s" repeatcount="indefinite"></animateTransform>
-          </circle>
-          <!-- Efekt ripple -->
-          <circle [attr.r]="radius" class="guideline-ripple" />
-        </g>
-
-        <!-- Okrąg 75% -->
-        <g class="guideline-group">
-          <circle [attr.r]="radius * 0.75" class="guideline-hitbox" />
-          <circle [attr.r]="radius * 0.75" fill="none" stroke="rgba(255,255,255,0.09)" stroke-width="1" class="guideline">
-            <animateTransform attributename="transform" type="rotate" from="360 0 0" to="0 0 0" dur="45s" repeatcount="indefinite"></animateTransform>
-          </circle>
-          <circle [attr.r]="radius * 0.75" class="guideline-ripple" />
-        </g>
-
-        <!-- Okrąg 50% -->
-        <g class="guideline-group">
-          <circle [attr.r]="radius * 0.5" class="guideline-hitbox" />
-          <circle [attr.r]="radius * 0.5" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1" class="guideline">
-            <animateTransform attributename="transform" type="rotate" from="0 0 0" to="360 0 0" dur="30s" repeatcount="indefinite"></animateTransform>
-          </circle>
-          <circle [attr.r]="radius * 0.5" class="guideline-ripple" />
-        </g>
-
-        <!-- Okrąg 25% -->
-        <g class="guideline-group">
-          <circle [attr.r]="radius * 0.25" class="guideline-hitbox" />
-          <circle [attr.r]="radius * 0.25" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1" class="guideline">
-            <animateTransform attributename="transform" type="rotate" from="360 0 0" to="0 0 0" dur="20s" repeatcount="indefinite"></animateTransform>
-          </circle>
-          <circle [attr.r]="radius * 0.25" class="guideline-ripple" />
-        </g>
-      </g>
-
-      <!-- Rotating cross lines -->
-      <g>
-        <line [attr.x1]="-radius * 0.7" [attr.y1]="-radius * 0.7" [attr.x2]="radius * 0.7" [attr.y2]="radius * 0.7" stroke="rgba(255,255,255,0.12)" stroke-width="0.5" class="guideline">
-          <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="90s" repeatCount="indefinite"></animateTransform>
+      <g class="rotating-lines">
+        <line [attr.x1]="-radius * 0.7" [attr.y1]="-radius * 0.7"
+              [attr.x2]="radius * 0.7" [attr.y2]="radius * 0.7"
+              stroke="rgba(255,255,255,0.12)" stroke-width="0.5" class="guideline">
+          <animateTransform attributeName="transform" type="rotate"
+                            from="0 0 0" to="360 0 0" dur="90s"
+                            repeatCount="indefinite"></animateTransform>
         </line>
-        <line [attr.x1]="-radius * 0.7" [attr.y1]="radius * 0.7" [attr.x2]="radius * 0.7" [attr.y2]="-radius * 0.7" stroke="rgba(255,255,255,0.12)" stroke-width="0.5" class="guideline">
-          <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="90s" repeatCount="indefinite"></animateTransform>
+        <line [attr.x1]="-radius * 0.7" [attr.y1]="radius * 0.7"
+              [attr.x2]="radius * 0.7" [attr.y2]="-radius * 0.7"
+              stroke="rgba(255,255,255,0.12)" stroke-width="0.5" class="guideline">
+          <animateTransform attributeName="transform" type="rotate"
+                            from="0 0 0" to="360 0 0" dur="90s"
+                            repeatCount="indefinite"></animateTransform>
         </line>
       </g>
 
-      <!-- Skill area with gradient animation -->
-      <g>
+      <!-- Guidelines -->
+      <g *ngFor="let level of [1, 0.75, 0.5, 0.25]">
+        <circle [attr.r]="radius * level" class="guideline-hitbox"></circle>
+        <circle [attr.r]="radius * level" fill="none"
+                [attr.stroke]="'rgba(255,255,255,' + (0.12 - (1 - level) * 0.03) + ')'"
+                stroke-width="1" class="guideline">
+          <animateTransform attributeName="transform" type="rotate"
+                            [attr.from]="level === 1 || level === 0.5 ? '0 0 0' : '360 0 0'"
+                            [attr.to]="level === 1 || level === 0.5 ? '360 0 0' : '0 0 0'"
+                            [attr.dur]="(60 - (1 - level) * 30) + 's'"
+                            repeatCount="indefinite"></animateTransform>
+        </circle>
+        <circle [attr.r]="radius * level" class="guideline-ripple"></circle>
+      </g>
+
+      <!-- Skill area -->
+      <g class="skill-area-group"
+         (mouseenter)="isHovered = true"
+         (mouseleave)="isHovered = false">
         <path [attr.d]="getSkillPath()"
               class="skill-area-base"
               fill="url(#skillGradient)"
               stroke="#3b82f6"
               stroke-width="2"
-              opacity="0.7" />
+              opacity="0.7"></path>
 
         <path [attr.d]="getSkillPath()"
               fill="url(#animatedGradient)"
               filter="url(#turbulence)"
-              clip-path="url(#skillAreaClip)"
-              opacity="0"
-              class="skill-area skill-area-overlay">
+              class="skill-area skill-area-overlay"
+              opacity="0">
           <animate attributeName="opacity"
                    values="0;0.5;0"
                    dur="3s"
@@ -153,67 +139,71 @@
         </path>
       </g>
 
-      <!-- Skill points with animations -->
+      <!-- Skill points -->
       <g *ngFor="let skill of skills">
         <g class="skill-point" [class.active]="hoveredSkill === skill">
-          <circle
-            [attr.cx]="getPointPosition(skill).x"
-            [attr.cy]="getPointPosition(skill).y"
-            [attr.r]="pointRadius * 1.5"
-            [class.hovered]="hoveredSkill === skill"
-            fill="#60a5fa"
-            fill-opacity="0.3">
-            <animate attributeName="r" values="6;7;6" dur="2s" repeatCount="indefinite"></animate>
+          <circle [attr.cx]="getPointPosition(skill).x"
+                  [attr.cy]="getPointPosition(skill).y"
+                  [attr.r]="pointRadius * 1.5"
+                  [class.hovered]="hoveredSkill === skill"
+                  fill="#60a5fa"
+                  fill-opacity="0.3">
+            <animate attributeName="r"
+                     values="6;7;6"
+                     dur="2s"
+                     repeatCount="indefinite" />
           </circle>
-          <circle
-            [attr.cx]="getPointPosition(skill).x"
-            [attr.cy]="getPointPosition(skill).y"
-            [attr.r]="pointRadius"
-            [class.hovered]="hoveredSkill === skill"
-            fill="#60a5fa">
-            <animate attributeName="r" values="4;5;4" dur="2s" repeatCount="indefinite"></animate>
+          <circle [attr.cx]="getPointPosition(skill).x"
+                  [attr.cy]="getPointPosition(skill).y"
+                  [attr.r]="pointRadius"
+                  [class.hovered]="hoveredSkill === skill"
+                  fill="#60a5fa">
+            <animate attributeName="r"
+                     values="4;5;4"
+                     dur="2s"
+                     repeatCount="indefinite" />
           </circle>
         </g>
       </g>
 
       <!-- Labels -->
-      <g [attr.font-size]="labelFontSize" font-family="Arial, sans-serif" font-weight="500" filter="url(#textShadow)" class="skill-labels">
-        <text
-          [attr.x]="-radius * labelDistanceMultiplier"
-          y="5"
-          text-anchor="middle"
-          fill="white"
-          [class.hovered]="hoveredSkill === 'frontend'"
-          class="skill-label"
-          (mouseenter)="onSkillHover('frontend')"
-          (mouseleave)="onSkillLeave()">Frontend</text>
-        <text
-          [attr.x]="radius * labelDistanceMultiplier"
-          y="5"
-          text-anchor="middle"
-          fill="white"
-          [class.hovered]="hoveredSkill === 'backend'"
-          class="skill-label"
-          (mouseenter)="onSkillHover('backend')"
-          (mouseleave)="onSkillLeave()">Backend</text>
-        <text
-          x="0"
-          [attr.y]="-radius * (labelDistanceMultiplier * 0.85)"
-          text-anchor="middle"
-          fill="white"
-          [class.hovered]="hoveredSkill === 'uiux'"
-          class="skill-label"
-          (mouseenter)="onSkillHover('uiux')"
-          (mouseleave)="onSkillLeave()">UI/UX</text>
-        <text
-          x="0"
-          [attr.y]="radius * (labelDistanceMultiplier * 0.85)"
-          text-anchor="middle"
-          fill="white"
-          [class.hovered]="hoveredSkill === 'devops'"
-          class="skill-label"
-          (mouseenter)="onSkillHover('devops')"
-          (mouseleave)="onSkillLeave()">DevOps</text>
+      <g [attr.font-size]="labelFontSize"
+         font-family="Arial, sans-serif"
+         font-weight="500"
+         filter="url(#textShadow)"
+         class="skill-labels">
+        <text [attr.x]="-radius * labelDistanceMultiplier"
+              y="5"
+              text-anchor="middle"
+              fill="white"
+              [class.hovered]="hoveredSkill === 'frontend'"
+              class="skill-label"
+              (mouseenter)="onSkillHover('frontend')"
+              (mouseleave)="onSkillLeave()">Frontend</text>
+        <text [attr.x]="radius * labelDistanceMultiplier"
+              y="5"
+              text-anchor="middle"
+              fill="white"
+              [class.hovered]="hoveredSkill === 'backend'"
+              class="skill-label"
+              (mouseenter)="onSkillHover('backend')"
+              (mouseleave)="onSkillLeave()">Backend</text>
+        <text x="0"
+              [attr.y]="-radius * (labelDistanceMultiplier * 0.85)"
+              text-anchor="middle"
+              fill="white"
+              [class.hovered]="hoveredSkill === 'uiux'"
+              class="skill-label"
+              (mouseenter)="onSkillHover('uiux')"
+              (mouseleave)="onSkillLeave()">UI/UX</text>
+        <text x="0"
+              [attr.y]="radius * (labelDistanceMultiplier * 0.85)"
+              text-anchor="middle"
+              fill="white"
+              [class.hovered]="hoveredSkill === 'devops'"
+              class="skill-label"
+              (mouseenter)="onSkillHover('devops')"
+              (mouseleave)="onSkillLeave()">DevOps</text>
       </g>
     </g>
   </svg>
