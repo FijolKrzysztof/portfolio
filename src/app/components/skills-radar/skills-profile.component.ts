@@ -1,4 +1,3 @@
-// skills-profile.component.ts
 import { Component, HostListener, OnInit } from '@angular/core';
 
 @Component({
@@ -45,7 +44,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
         </text>
 
         <!-- Main content -->
-        <g [attr.transform]="'translate(' + width/2 + ',' + height/2 + ')'">
+        <g [attr.transform]="'translate(' + width/2 + ',' + centerY + ')'">
           <!-- Circular guidelines -->
           <circle [attr.r]="radius" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
           <circle [attr.r]="radius * 0.75" fill="none" stroke="rgba(255,255,255,0.09)" stroke-width="1"/>
@@ -86,10 +85,10 @@ import { Component, HostListener, OnInit } from '@angular/core';
           <!-- Labels -->
           <g [attr.font-size]="labelFontSize" font-family="Arial, sans-serif" font-weight="500"
              filter="url(#textShadow)" class="skill-labels">
-            <text [attr.x]="-radius * 1.333" y="5" text-anchor="middle" fill="white">Frontend</text>
-            <text [attr.x]="radius * 1.333" y="5" text-anchor="middle" fill="white">Backend</text>
-            <text x="0" [attr.y]="-radius * 1.125" text-anchor="middle" fill="white">UI/UX</text>
-            <text x="0" [attr.y]="radius * 1.208" text-anchor="middle" fill="white">DevOps</text>
+            <text [attr.x]="-radius * labelDistanceMultiplier" y="5" text-anchor="middle" fill="white">Frontend</text>
+            <text [attr.x]="radius * labelDistanceMultiplier" y="5" text-anchor="middle" fill="white">Backend</text>
+            <text x="0" [attr.y]="-radius * (labelDistanceMultiplier * 0.85)" text-anchor="middle" fill="white">UI/UX</text>
+            <text x="0" [attr.y]="radius * (labelDistanceMultiplier * 0.85)" text-anchor="middle" fill="white">DevOps</text>
           </g>
         </g>
       </svg>
@@ -120,12 +119,6 @@ import { Component, HostListener, OnInit } from '@angular/core';
       opacity: 1;
       transition: all 0.3s ease;
     }
-
-    @media (max-width: 400px) {
-      .skill-labels text {
-        opacity: 0.9;
-      }
-    }
   `]
 })
 export class SkillsProfileComponent implements OnInit {
@@ -135,9 +128,11 @@ export class SkillsProfileComponent implements OnInit {
   radius = 120;
   pointRadius = 4;
   fontSize = 28;
-  labelFontSize = 14;
+  labelFontSize = 16;
   borderRadius = 20;
   titleY = 50;
+  centerY = 225;
+  labelDistanceMultiplier = 1.333; // Nowa zmienna do kontrolowania odległości etykiet
   viewBox = `0 0 ${this.width} ${this.height}`;
   containerWidth = '100%';
 
@@ -154,21 +149,34 @@ export class SkillsProfileComponent implements OnInit {
 
   private updateDimensions() {
     const containerWidth = window.innerWidth;
-    if (containerWidth < 600) {
+
+    if (containerWidth < 400) {
+      // Bardzo małe ekrany
       this.fontSize = 24;
-      this.labelFontSize = 12;
+      this.labelFontSize = 16;
       this.pointRadius = 3;
       this.titleY = 40;
-    } else if (containerWidth < 800) {
+      this.radius = 90;
+      this.centerY = 200;
+      this.labelDistanceMultiplier = 1.5; // Większa odległość etykiet na małych ekranach
+    } else if (containerWidth < 600) {
+      // Małe ekrany
       this.fontSize = 26;
-      this.labelFontSize = 13;
+      this.labelFontSize = 15;
       this.pointRadius = 3.5;
       this.titleY = 45;
+      this.radius = 100;
+      this.centerY = 215;
+      this.labelDistanceMultiplier = 1.4; // Średnia odległość etykiet
     } else {
+      // Większe ekrany
       this.fontSize = 28;
       this.labelFontSize = 14;
       this.pointRadius = 4;
       this.titleY = 50;
+      this.radius = 120;
+      this.centerY = 225;
+      this.labelDistanceMultiplier = 1.333; // Oryginalna odległość etykiet
     }
   }
 
