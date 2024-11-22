@@ -45,7 +45,6 @@ export class SkillsProfileComponent implements OnInit {
   }
 
   private calculatePointPositions() {
-    // Calculate initial point positions
     this.pointPositions = {
       frontend: {
         x: -this.radius * 0.833,
@@ -110,41 +109,27 @@ export class SkillsProfileComponent implements OnInit {
   }
 
   getPointPosition(skill: string): { x: number, y: number } {
-    const pointPosition = this.pointPositions[skill as keyof typeof this.pointPositions];
-
-    if (this.hoveredSkill === skill) {
-      let targetX = 0;
-      let targetY = 0;
-
-      // Obliczanie pozycji docelowej w kierunku labelki
-      switch(skill) {
-        case 'frontend':
-          targetX = -this.radius * (this.labelDistanceMultiplier - 0.4); // Przesuwamy punkt w lewo, ale nie tak daleko jak labelka
-          targetY = 0; // Pozostawiamy tę samą wysokość
-          break;
-        case 'backend':
-          targetX = this.radius * (this.labelDistanceMultiplier - 0.4); // Przesuwamy punkt w prawo, ale nie tak daleko jak labelka
-          targetY = 0; // Pozostawiamy tę samą wysokość
-          break;
-        case 'uiux':
-          targetX = 0; // Pozostawiamy tę samą pozycję X
-          targetY = -this.radius * (this.labelDistanceMultiplier * 0.6); // Przesuwamy punkt w górę, ale nie tak wysoko jak labelka
-          break;
-        case 'devops':
-          targetX = 0; // Pozostawiamy tę samą pozycję X
-          targetY = this.radius * (this.labelDistanceMultiplier * 0.6); // Przesuwamy punkt w dół, ale nie tak nisko jak labelka
-          break;
-      }
-
-      const moveFactor = 0.3; // Zwiększyłem nieco szybkość animacji
-
-      return {
-        x: pointPosition.x + (targetX - pointPosition.x) * moveFactor,
-        y: pointPosition.y + (targetY - pointPosition.y) * moveFactor
-      };
+    if (this.hoveredSkill !== skill) {
+      return this.pointPositions[skill as keyof typeof this.pointPositions];
     }
 
-    return pointPosition;
+    const basePos = this.pointPositions[skill as keyof typeof this.pointPositions];
+    const moveFactor = 15; // stała wartość przesunięcia w pikselach
+
+    console.log('movement', skill, basePos, moveFactor)
+
+    switch(skill) {
+      case 'uiux':
+        return { x: basePos.x, y: basePos.y - moveFactor };
+      case 'devops':
+        return { x: basePos.x, y: basePos.y + moveFactor };
+      case 'frontend':
+        return { x: basePos.x - moveFactor, y: basePos.y };
+      case 'backend':
+        return { x: basePos.x + moveFactor, y: basePos.y };
+      default:
+        return basePos;
+    }
   }
 
   onSkillHover(skill: string) {
