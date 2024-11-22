@@ -1,10 +1,12 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-skills-profile',
-  templateUrl: 'skills-profile.component.html',
-  styleUrl: 'skills-profile.component.scss',
-  standalone: true
+  templateUrl: './skills-profile.component.html',
+  styleUrls: ['./skills-profile.component.scss'],
+  standalone: true,
+  imports: [CommonModule]
 })
 export class SkillsProfileComponent implements OnInit {
   width = 400;
@@ -20,16 +22,48 @@ export class SkillsProfileComponent implements OnInit {
   viewBox = `0 0 ${this.width} ${this.height}`;
   containerWidth = '100%';
   hoveredSkill: string | null = null;
+  pointPositions = {
+    frontend: { x: 0, y: 0 },
+    backend: { x: 0, y: 0 },
+    uiux: { x: 0, y: 0 },
+    devops: { x: 0, y: 0 }
+  };
+
+  skills = ['frontend', 'backend', 'uiux', 'devops'];
 
   constructor() {}
 
   ngOnInit() {
     this.updateDimensions();
+    this.calculatePointPositions();
   }
 
   @HostListener('window:resize')
   onResize() {
     this.updateDimensions();
+    this.calculatePointPositions();
+  }
+
+  private calculatePointPositions() {
+    // Calculate initial point positions
+    this.pointPositions = {
+      frontend: {
+        x: -this.radius * 0.833,
+        y: 0
+      },
+      backend: {
+        x: this.radius * 0.625,
+        y: 0
+      },
+      uiux: {
+        x: 0,
+        y: -this.radius * 0.75
+      },
+      devops: {
+        x: 0,
+        y: this.radius * 0.417
+      }
+    };
   }
 
   private updateDimensions() {
@@ -63,16 +97,54 @@ export class SkillsProfileComponent implements OnInit {
   }
 
   getSkillPath(): string {
-    const frontendX = -this.radius * 0.833;
-    const frontendY = 0;
-    const uiuxX = 0;
-    const uiuxY = -this.radius * 0.75;
-    const backendX = this.radius * 0.625;
-    const backendY = 0;
-    const devopsX = 0;
-    const devopsY = this.radius * 0.417;
+    const frontendX = this.pointPositions.frontend.x;
+    const frontendY = this.pointPositions.frontend.y;
+    const uiuxX = this.pointPositions.uiux.x;
+    const uiuxY = this.pointPositions.uiux.y;
+    const backendX = this.pointPositions.backend.x;
+    const backendY = this.pointPositions.backend.y;
+    const devopsX = this.pointPositions.devops.x;
+    const devopsY = this.pointPositions.devops.y;
 
     return `M ${frontendX},${frontendY} L ${uiuxX},${uiuxY} L ${backendX},${backendY} L ${devopsX},${devopsY} Z`;
+  }
+
+  getPointPosition(skill: string): { x: number, y: number } {
+    const pointPosition = this.pointPositions[skill as keyof typeof this.pointPositions];
+
+    if (this.hoveredSkill === skill) {
+      let targetX = 0;
+      let targetY = 0;
+
+      // Obliczanie pozycji docelowej w kierunku labelki
+      switch(skill) {
+        case 'frontend':
+          targetX = -this.radius * (this.labelDistanceMultiplier - 0.4); // Przesuwamy punkt w lewo, ale nie tak daleko jak labelka
+          targetY = 0; // Pozostawiamy tę samą wysokość
+          break;
+        case 'backend':
+          targetX = this.radius * (this.labelDistanceMultiplier - 0.4); // Przesuwamy punkt w prawo, ale nie tak daleko jak labelka
+          targetY = 0; // Pozostawiamy tę samą wysokość
+          break;
+        case 'uiux':
+          targetX = 0; // Pozostawiamy tę samą pozycję X
+          targetY = -this.radius * (this.labelDistanceMultiplier * 0.6); // Przesuwamy punkt w górę, ale nie tak wysoko jak labelka
+          break;
+        case 'devops':
+          targetX = 0; // Pozostawiamy tę samą pozycję X
+          targetY = this.radius * (this.labelDistanceMultiplier * 0.6); // Przesuwamy punkt w dół, ale nie tak nisko jak labelka
+          break;
+      }
+
+      const moveFactor = 0.3; // Zwiększyłem nieco szybkość animacji
+
+      return {
+        x: pointPosition.x + (targetX - pointPosition.x) * moveFactor,
+        y: pointPosition.y + (targetY - pointPosition.y) * moveFactor
+      };
+    }
+
+    return pointPosition;
   }
 
   onSkillHover(skill: string) {
