@@ -15,6 +15,35 @@
         </stop>
       </linearGradient>
 
+      <linearGradient id="animatedGradient" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="rgba(96, 165, 250, 0.4)">
+          <animate attributeName="stop-color"
+                   values="rgba(96, 165, 250, 0.4);rgba(147, 197, 253, 0.4);rgba(96, 165, 250, 0.4)"
+                   dur="3s"
+                   repeatCount="indefinite" />
+        </stop>
+        <stop offset="100%" stop-color="rgba(37, 99, 235, 0.2)">
+          <animate attributeName="stop-color"
+                   values="rgba(37, 99, 235, 0.2);rgba(59, 130, 246, 0.2);rgba(37, 99, 235, 0.2)"
+                   dur="3s"
+                   repeatCount="indefinite" />
+        </stop>
+      </linearGradient>
+
+      <filter id="turbulence">
+        <feTurbulence type="fractalNoise" baseFrequency="0.01 0.01" numOctaves="1" result="noise" seed="1">
+          <animate attributeName="baseFrequency"
+                   values="0.01 0.01;0.015 0.01;0.01 0.01"
+                   dur="10s"
+                   repeatCount="indefinite" />
+        </feTurbulence>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" />
+      </filter>
+
+      <clipPath id="skillAreaClip">
+        <path [attr.d]="getSkillPath()" />
+      </clipPath>
+
       <filter id="glow">
         <feGaussianBlur stdDeviation="3" result="coloredBlur"></feGaussianBlur>
         <feMerge>
@@ -103,9 +132,26 @@
       </g>
 
       <!-- Skill area with gradient animation -->
-      <path [attr.d]="getSkillPath()" fill="url(#skillGradient)" stroke="#3b82f6" stroke-width="2" opacity="0.7" class="skill-area" filter="url(#glow)">
-        <animate attributeName="opacity" values="0.6;0.8;0.6" dur="4s" repeatCount="indefinite"></animate>
-      </path>
+      <g>
+        <path [attr.d]="getSkillPath()"
+              class="skill-area-base"
+              fill="url(#skillGradient)"
+              stroke="#3b82f6"
+              stroke-width="2"
+              opacity="0.7" />
+
+        <path [attr.d]="getSkillPath()"
+              fill="url(#animatedGradient)"
+              filter="url(#turbulence)"
+              clip-path="url(#skillAreaClip)"
+              opacity="0"
+              class="skill-area skill-area-overlay">
+          <animate attributeName="opacity"
+                   values="0;0.5;0"
+                   dur="3s"
+                   repeatCount="indefinite" />
+        </path>
+      </g>
 
       <!-- Skill points with animations -->
       <g *ngFor="let skill of skills">

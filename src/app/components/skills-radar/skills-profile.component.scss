@@ -228,3 +228,32 @@ circle.hovered {
     fill: rgba(96, 165, 250, 0.8);
   }
 }
+
+.skill-area {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+
+  &:hover {
+    filter: url(#hoverGlow);
+    opacity: 0.9 !important;
+
+    & ~ .skill-point circle {
+      animation: skillPointPulse 1.5s infinite;
+    }
+  }
+}
+
+@keyframes skillPointPulse {
+  0% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.3);
+    filter: brightness(1.5);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
