@@ -20,24 +20,38 @@ svg {
 .skill-labels text {
   opacity: 1;
   transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    font-size: 120%;
+    fill: #60a5fa;
+    filter: url(#hoverGlow);
+  }
 }
 
 .skill-point {
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
+  transition: all 0.3s ease;
 
-.skill-point:hover {
-  transform: scale(1.2);
+  circle {
+    transition: all 0.3s ease;
+  }
+
+  &.active {
+    circle {
+      transform: translate(10px, 10px);
+      fill: #93c5fd;
+      filter: url(#hoverGlow);
+    }
+  }
 }
 
 .skill-area {
   transition: all 0.3s ease;
-}
 
-.skill-area:hover {
-  filter: url(#hoverGlow);
-  opacity: 0.9 !important;
+  &:hover {
+    filter: url(#hoverGlow);
+    opacity: 0.9 !important;
+  }
 }
 
 .guideline {
@@ -46,12 +60,12 @@ svg {
 
 .skill-label {
   transition: all 0.3s ease;
-}
 
-.skill-label.hovered {
-  font-size: 120%;
-  fill: #60a5fa;
-  filter: url(#hoverGlow);
+  &.hovered {
+    font-size: 120%;
+    fill: #60a5fa;
+    filter: url(#hoverGlow);
+  }
 }
 
 circle.hovered {
