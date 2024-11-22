@@ -34,6 +34,14 @@ import { Component, HostListener, OnInit } from '@angular/core';
             </feMerge>
           </filter>
 
+          <filter id="hoverGlow">
+            <feGaussianBlur stdDeviation="5" result="coloredBlur"/>
+            <feMerge>
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+
           <filter id="textShadow" x="-20%" y="-20%" width="140%" height="140%">
             <feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="#000000" flood-opacity="0.5"/>
           </filter>
@@ -57,7 +65,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
         <g [attr.transform]="'translate(' + width/2 + ',' + centerY + ')'">
           <!-- Rotating circular guidelines -->
           <g>
-            <circle [attr.r]="radius" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1">
+            <circle [attr.r]="radius" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1" class="guideline">
               <animateTransform
                 attributeName="transform"
                 type="rotate"
@@ -67,7 +75,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
                 repeatCount="indefinite"/>
             </circle>
 
-            <circle [attr.r]="radius * 0.75" fill="none" stroke="rgba(255,255,255,0.09)" stroke-width="1">
+            <circle [attr.r]="radius * 0.75" fill="none" stroke="rgba(255,255,255,0.09)" stroke-width="1" class="guideline">
               <animateTransform
                 attributeName="transform"
                 type="rotate"
@@ -77,7 +85,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
                 repeatCount="indefinite"/>
             </circle>
 
-            <circle [attr.r]="radius * 0.5" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1">
+            <circle [attr.r]="radius * 0.5" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1" class="guideline">
               <animateTransform
                 attributeName="transform"
                 type="rotate"
@@ -87,7 +95,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
                 repeatCount="indefinite"/>
             </circle>
 
-            <circle [attr.r]="radius * 0.25" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1">
+            <circle [attr.r]="radius * 0.25" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1" class="guideline">
               <animateTransform
                 attributeName="transform"
                 type="rotate"
@@ -100,10 +108,9 @@ import { Component, HostListener, OnInit } from '@angular/core';
 
           <!-- Rotating cross lines -->
           <g>
-            <!-- Pierwsza linia X -->
             <line [attr.x1]="-radius * 0.7" [attr.y1]="-radius * 0.7"
                   [attr.x2]="radius * 0.7" [attr.y2]="radius * 0.7"
-                  stroke="rgba(255,255,255,0.12)" stroke-width="0.5">
+                  stroke="rgba(255,255,255,0.12)" stroke-width="0.5" class="guideline">
               <animateTransform
                 attributeName="transform"
                 type="rotate"
@@ -112,10 +119,9 @@ import { Component, HostListener, OnInit } from '@angular/core';
                 dur="90s"
                 repeatCount="indefinite"/>
             </line>
-            <!-- Druga linia X -->
             <line [attr.x1]="-radius * 0.7" [attr.y1]="radius * 0.7"
                   [attr.x2]="radius * 0.7" [attr.y2]="-radius * 0.7"
-                  stroke="rgba(255,255,255,0.12)" stroke-width="0.5">
+                  stroke="rgba(255,255,255,0.12)" stroke-width="0.5" class="guideline">
               <animateTransform
                 attributeName="transform"
                 type="rotate"
@@ -132,6 +138,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
                 stroke="#3b82f6"
                 stroke-width="2"
                 opacity="0.7"
+                class="skill-area"
                 filter="url(#glow)">
             <animate attributeName="opacity"
                      values="0.6;0.8;0.6"
@@ -139,17 +146,21 @@ import { Component, HostListener, OnInit } from '@angular/core';
                      repeatCount="indefinite"/>
           </path>
 
-          <!-- Skill points with pulse animation -->
-          <g fill="#60a5fa" filter="url(#glow)">
+          <!-- Skill points with hover animations -->
+          <g>
             <!-- Frontend point -->
-            <g>
-              <circle [attr.cx]="-radius * 0.833" cy="0" [attr.r]="pointRadius * 1.5" fill-opacity="0.3">
+            <g class="skill-point" (mouseenter)="onSkillHover('frontend')" (mouseleave)="onSkillLeave()">
+              <circle [attr.cx]="-radius * 0.833" cy="0" [attr.r]="pointRadius * 1.5"
+                      [class.hovered]="hoveredSkill === 'frontend'"
+                      fill="#60a5fa" fill-opacity="0.3">
                 <animate attributeName="r"
                          values="6;7;6"
                          dur="2s"
                          repeatCount="indefinite"/>
               </circle>
-              <circle [attr.cx]="-radius * 0.833" cy="0" [attr.r]="pointRadius">
+              <circle [attr.cx]="-radius * 0.833" cy="0" [attr.r]="pointRadius"
+                      [class.hovered]="hoveredSkill === 'frontend'"
+                      fill="#60a5fa">
                 <animate attributeName="r"
                          values="4;5;4"
                          dur="2s"
@@ -158,15 +169,19 @@ import { Component, HostListener, OnInit } from '@angular/core';
             </g>
 
             <!-- Backend point -->
-            <g>
-              <circle [attr.cx]="radius * 0.625" cy="0" [attr.r]="pointRadius * 1.5" fill-opacity="0.3">
+            <g class="skill-point" (mouseenter)="onSkillHover('backend')" (mouseleave)="onSkillLeave()">
+              <circle [attr.cx]="radius * 0.625" cy="0" [attr.r]="pointRadius * 1.5"
+                      [class.hovered]="hoveredSkill === 'backend'"
+                      fill="#60a5fa" fill-opacity="0.3">
                 <animate attributeName="r"
                          values="6;7;6"
                          dur="2s"
                          repeatCount="indefinite"
                          begin="0.5s"/>
               </circle>
-              <circle [attr.cx]="radius * 0.625" cy="0" [attr.r]="pointRadius">
+              <circle [attr.cx]="radius * 0.625" cy="0" [attr.r]="pointRadius"
+                      [class.hovered]="hoveredSkill === 'backend'"
+                      fill="#60a5fa">
                 <animate attributeName="r"
                          values="4;5;4"
                          dur="2s"
@@ -176,15 +191,19 @@ import { Component, HostListener, OnInit } from '@angular/core';
             </g>
 
             <!-- UI/UX point -->
-            <g>
-              <circle cx="0" [attr.cy]="-radius * 0.75" [attr.r]="pointRadius * 1.5" fill-opacity="0.3">
+            <g class="skill-point" (mouseenter)="onSkillHover('uiux')" (mouseleave)="onSkillLeave()">
+              <circle cx="0" [attr.cy]="-radius * 0.75" [attr.r]="pointRadius * 1.5"
+                      [class.hovered]="hoveredSkill === 'uiux'"
+                      fill="#60a5fa" fill-opacity="0.3">
                 <animate attributeName="r"
                          values="6;7;6"
                          dur="2s"
                          repeatCount="indefinite"
                          begin="1s"/>
               </circle>
-              <circle cx="0" [attr.cy]="-radius * 0.75" [attr.r]="pointRadius">
+              <circle cx="0" [attr.cy]="-radius * 0.75" [attr.r]="pointRadius"
+                      [class.hovered]="hoveredSkill === 'uiux'"
+                      fill="#60a5fa">
                 <animate attributeName="r"
                          values="4;5;4"
                          dur="2s"
@@ -194,15 +213,19 @@ import { Component, HostListener, OnInit } from '@angular/core';
             </g>
 
             <!-- DevOps point -->
-            <g>
-              <circle cx="0" [attr.cy]="radius * 0.417" [attr.r]="pointRadius * 1.5" fill-opacity="0.3">
+            <g class="skill-point" (mouseenter)="onSkillHover('devops')" (mouseleave)="onSkillLeave()">
+              <circle cx="0" [attr.cy]="radius * 0.417" [attr.r]="pointRadius * 1.5"
+                      [class.hovered]="hoveredSkill === 'devops'"
+                      fill="#60a5fa" fill-opacity="0.3">
                 <animate attributeName="r"
                          values="6;7;6"
                          dur="2s"
                          repeatCount="indefinite"
                          begin="1.5s"/>
               </circle>
-              <circle cx="0" [attr.cy]="radius * 0.417" [attr.r]="pointRadius">
+              <circle cx="0" [attr.cy]="radius * 0.417" [attr.r]="pointRadius"
+                      [class.hovered]="hoveredSkill === 'devops'"
+                      fill="#60a5fa">
                 <animate attributeName="r"
                          values="4;5;4"
                          dur="2s"
@@ -215,12 +238,22 @@ import { Component, HostListener, OnInit } from '@angular/core';
           <!-- Labels -->
           <g [attr.font-size]="labelFontSize" font-family="Arial, sans-serif" font-weight="500"
              filter="url(#textShadow)" class="skill-labels">
-            <text [attr.x]="-radius * labelDistanceMultiplier" y="5" text-anchor="middle" fill="white">Frontend</text>
-            <text [attr.x]="radius * labelDistanceMultiplier" y="5" text-anchor="middle" fill="white">Backend</text>
-            <text x="0" [attr.y]="-radius * (labelDistanceMultiplier * 0.85)" text-anchor="middle" fill="white">UI/UX
-            </text>
-            <text x="0" [attr.y]="radius * (labelDistanceMultiplier * 0.85)" text-anchor="middle" fill="white">DevOps
-            </text>
+            <text [attr.x]="-radius * labelDistanceMultiplier" y="5"
+                  text-anchor="middle" fill="white"
+                  [class.hovered]="hoveredSkill === 'frontend'"
+                  class="skill-label">Frontend</text>
+            <text [attr.x]="radius * labelDistanceMultiplier" y="5"
+                  text-anchor="middle" fill="white"
+                  [class.hovered]="hoveredSkill === 'backend'"
+                  class="skill-label">Backend</text>
+            <text x="0" [attr.y]="-radius * (labelDistanceMultiplier * 0.85)"
+                  text-anchor="middle" fill="white"
+                  [class.hovered]="hoveredSkill === 'uiux'"
+                  class="skill-label">UI/UX</text>
+            <text x="0" [attr.y]="radius * (labelDistanceMultiplier * 0.85)"
+                  text-anchor="middle" fill="white"
+                  [class.hovered]="hoveredSkill === 'devops'"
+                  class="skill-label">DevOps</text>
           </g>
         </g>
       </svg>
@@ -251,6 +284,43 @@ import { Component, HostListener, OnInit } from '@angular/core';
       opacity: 1;
       transition: all 0.3s ease;
     }
+
+    .skill-point {
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .skill-point:hover {
+      transform: scale(1.2);
+    }
+
+    .skill-area {
+      transition: all 0.3s ease;
+    }
+
+    .skill-area:hover {
+      filter: url(#hoverGlow);
+      opacity: 0.9 !important;
+    }
+
+    .guideline {
+      transition: stroke-width 0.3s ease, opacity 0.3s ease;
+    }
+
+    .skill-label {
+      transition: all 0.3s ease;
+    }
+
+    .skill-label.hovered {
+      font-size: 120%;
+      fill: #60a5fa;
+      filter: url(#hoverGlow);
+    }
+
+    circle.hovered {
+      fill: #93c5fd;
+      filter: url(#hoverGlow);
+    }
   `]
 })
 export class SkillsProfileComponent implements OnInit {
@@ -266,6 +336,7 @@ export class SkillsProfileComponent implements OnInit {
   labelDistanceMultiplier = 1.333;
   viewBox = `0 0 ${this.width} ${this.height}`;
   containerWidth = '100%';
+  hoveredSkill: string | null = null;
 
   constructor() {}
 
@@ -319,5 +390,13 @@ export class SkillsProfileComponent implements OnInit {
     const devopsY = this.radius * 0.417;
 
     return `M ${frontendX},${frontendY} L ${uiuxX},${uiuxY} L ${backendX},${backendY} L ${devopsX},${devopsY} Z`;
+  }
+
+  onSkillHover(skill: string) {
+    this.hoveredSkill = skill;
+  }
+
+  onSkillLeave() {
+    this.hoveredSkill = null;
   }
 }
