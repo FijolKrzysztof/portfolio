@@ -29,19 +29,37 @@ export class SkillsProfileComponent implements OnInit {
     devops: { x: 0, y: 0 }
   };
 
+  controlPoints = {
+    normal: {
+      frontend_uiux: { x: 0, y: 0 },
+      uiux_backend: { x: 0, y: 0 },
+      backend_devops: { x: 0, y: 0 },
+      devops_frontend: { x: 0, y: 0 }
+    },
+    hover: {
+      frontend_uiux: { x: 0, y: 0 },
+      uiux_backend: { x: 0, y: 0 },
+      backend_devops: { x: 0, y: 0 },
+      devops_frontend: { x: 0, y: 0 }
+    }
+  };
+
   skills = ['frontend', 'backend', 'uiux', 'devops'];
+  isHovered = false;
 
   constructor() {}
 
   ngOnInit() {
     this.updateDimensions();
     this.calculatePointPositions();
+    this.calculateControlPoints();
   }
 
   @HostListener('window:resize')
   onResize() {
     this.updateDimensions();
     this.calculatePointPositions();
+    this.calculateControlPoints();
   }
 
   private calculatePointPositions() {
@@ -61,6 +79,50 @@ export class SkillsProfileComponent implements OnInit {
       devops: {
         x: 0,
         y: this.radius * 0.417
+      }
+    };
+  }
+
+  private calculateControlPoints() {
+    // Normalne punkty kontrolne (mniejsze zakrzywienie)
+    const normalCurve = 0.3;
+    this.controlPoints.normal = {
+      frontend_uiux: {
+        x: (this.pointPositions.frontend.x + this.pointPositions.uiux.x) * normalCurve,
+        y: (this.pointPositions.frontend.y + this.pointPositions.uiux.y) * normalCurve
+      },
+      uiux_backend: {
+        x: (this.pointPositions.uiux.x + this.pointPositions.backend.x) * normalCurve,
+        y: (this.pointPositions.uiux.y + this.pointPositions.backend.y) * normalCurve
+      },
+      backend_devops: {
+        x: (this.pointPositions.backend.x + this.pointPositions.devops.x) * normalCurve,
+        y: (this.pointPositions.backend.y + this.pointPositions.devops.y) * normalCurve
+      },
+      devops_frontend: {
+        x: (this.pointPositions.devops.x + this.pointPositions.frontend.x) * normalCurve,
+        y: (this.pointPositions.devops.y + this.pointPositions.frontend.y) * normalCurve
+      }
+    };
+
+    // Punkty kontrolne dla hovera (większe zakrzywienie)
+    const hoverCurve = 0.5;
+    this.controlPoints.hover = {
+      frontend_uiux: {
+        x: (this.pointPositions.frontend.x + this.pointPositions.uiux.x) * hoverCurve,
+        y: (this.pointPositions.frontend.y + this.pointPositions.uiux.y) * hoverCurve
+      },
+      uiux_backend: {
+        x: (this.pointPositions.uiux.x + this.pointPositions.backend.x) * hoverCurve,
+        y: (this.pointPositions.uiux.y + this.pointPositions.backend.y) * hoverCurve
+      },
+      backend_devops: {
+        x: (this.pointPositions.backend.x + this.pointPositions.devops.x) * hoverCurve,
+        y: (this.pointPositions.backend.y + this.pointPositions.devops.y) * hoverCurve
+      },
+      devops_frontend: {
+        x: (this.pointPositions.devops.x + this.pointPositions.frontend.x) * hoverCurve,
+        y: (this.pointPositions.devops.y + this.pointPositions.frontend.y) * hoverCurve
       }
     };
   }
@@ -96,16 +158,16 @@ export class SkillsProfileComponent implements OnInit {
   }
 
   getSkillPath(): string {
-    const frontendX = this.pointPositions.frontend.x;
-    const frontendY = this.pointPositions.frontend.y;
-    const uiuxX = this.pointPositions.uiux.x;
-    const uiuxY = this.pointPositions.uiux.y;
-    const backendX = this.pointPositions.backend.x;
-    const backendY = this.pointPositions.backend.y;
-    const devopsX = this.pointPositions.devops.x;
-    const devopsY = this.pointPositions.devops.y;
+    const { frontend, uiux, backend, devops } = this.pointPositions;
+    const cp = this.isHovered ? this.controlPoints.hover : this.controlPoints.normal;
 
-    return `M ${frontendX},${frontendY} L ${uiuxX},${uiuxY} L ${backendX},${backendY} L ${devopsX},${devopsY} Z`;
+    return `
+      M ${frontend.x},${frontend.y}
+      Q ${cp.frontend_uiux.x},${cp.frontend_uiux.y} ${uiux.x},${uiux.y}
+      Q ${cp.uiux_backend.x},${cp.uiux_backend.y} ${backend.x},${backend.y}
+      Q ${cp.backend_devops.x},${cp.backend_devops.y} ${devops.x},${devops.y}
+      Q ${cp.devops_frontend.x},${cp.devops_frontend.y} ${frontend.x},${frontend.y}
+    `;
   }
 
   getPointPosition(skill: string): { x: number, y: number } {
@@ -114,9 +176,11 @@ export class SkillsProfileComponent implements OnInit {
 
   onSkillHover(skill: string) {
     this.hoveredSkill = skill;
+    this.isHovered = true;
   }
 
   onSkillLeave() {
     this.hoveredSkill = null;
+    this.isHovered = false;
   }
 }
