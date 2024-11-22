@@ -109,27 +109,7 @@ export class SkillsProfileComponent implements OnInit {
   }
 
   getPointPosition(skill: string): { x: number, y: number } {
-    if (this.hoveredSkill !== skill) {
-      return this.pointPositions[skill as keyof typeof this.pointPositions];
-    }
-
-    const basePos = this.pointPositions[skill as keyof typeof this.pointPositions];
-    const moveFactor = 15; // stała wartość przesunięcia w pikselach
-
-    console.log('movement', skill, basePos, moveFactor)
-
-    switch(skill) {
-      case 'uiux':
-        return { x: basePos.x, y: basePos.y - moveFactor };
-      case 'devops':
-        return { x: basePos.x, y: basePos.y + moveFactor };
-      case 'frontend':
-        return { x: basePos.x - moveFactor, y: basePos.y };
-      case 'backend':
-        return { x: basePos.x + moveFactor, y: basePos.y };
-      default:
-        return basePos;
-    }
+    return this.pointPositions[skill as keyof typeof this.pointPositions];
   }
 
   onSkillHover(skill: string) {
