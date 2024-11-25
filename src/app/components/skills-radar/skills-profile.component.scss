@@ -96,6 +96,21 @@ svg {
   pointer-events: none;
 }
 
+@keyframes skillPointPulse {
+  0% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.2); // Zmniejszone z 1.3 na 1.2
+    filter: brightness(1.5);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
 @keyframes ripple {
   0% {
     transform: scale(1);
@@ -103,24 +118,9 @@ svg {
     stroke-width: 1;
   }
   100% {
-    transform: scale(1.3);
+    transform: scale(1.15); // Zmniejszone z 1.3 na 1.15
     opacity: 0;
     stroke-width: 0;
-  }
-}
-
-@keyframes skillPointPulse {
-  0% {
-    transform: scale(1);
-    filter: brightness(1);
-  }
-  50% {
-    transform: scale(1.3);
-    filter: brightness(1.5);
-  }
-  100% {
-    transform: scale(1);
-    filter: brightness(1);
   }
 }
 
