@@ -89,13 +89,6 @@ svg {
   pointer-events: none;
 }
 
-.guideline-ripple {
-  opacity: 0;
-  fill: none;
-  stroke: rgba(96, 165, 250, 0.3);
-  pointer-events: none;
-}
-
 @keyframes skillPointPulse {
   0% {
     transform: scale(1);
@@ -111,16 +104,30 @@ svg {
   }
 }
 
+.guideline-ripple {
+  opacity: 0;
+  fill: none;
+  stroke: rgba(96, 165, 250, 0.5); // Zwiększona nieprzezroczystość z 0.3 na 0.5
+  pointer-events: none;
+}
+
 @keyframes ripple {
   0% {
     transform: scale(1);
-    opacity: 0.5;
-    stroke-width: 1;
+    opacity: 0.5; // Zwiększona początkowa nieprzezroczystość z 0.5 na 0.7
+    stroke-width: 2;
   }
   100% {
-    transform: scale(1.15); // Zmniejszone z 1.3 na 1.15
+    transform: scale(1.2); // Zwiększona skala z 1.15 na 1.2
     opacity: 0;
     stroke-width: 0;
+  }
+}
+
+.guideline-hitbox:hover {
+  & + .guideline {
+    stroke: rgba(255, 255, 255, 0.3); // Zwiększona widoczność z 0.3 na 0.5
+    stroke-width: 2;
   }
 }
 
