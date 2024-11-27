@@ -10,10 +10,8 @@ import { Component, EventEmitter, Output } from '@angular/core';
   `,
   styles: [`
     .start-button {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      display: block;
+      margin: 40px auto;
       padding: 16px 32px;
       background: transparent;
       border: 1px solid #646cff;
@@ -27,7 +25,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
     .start-button:hover {
       background: #646cff;
       color: #fff;
-      transform: translate(-50%, -50%) scale(1.05);
+      transform: scale(1.05);
     }
   `]
 })

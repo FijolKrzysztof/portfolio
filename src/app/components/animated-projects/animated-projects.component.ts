@@ -17,44 +17,43 @@ import { Project, ProjectSection } from '../../types/types';
     ProjectCardComponent
   ],
   template: `
-    <app-start-button
-      *ngIf="!isStarted"
-      (onClick)="startAnimation()"
-    />
+    <div class="projects-container">
+      <app-start-button
+        *ngIf="!isStarted"
+        (onClick)="startAnimation()"
+      />
 
-    <div class="container" [class.visible]="isStarted">
-      <div class="code-editor">
-        <app-editor-header />
-        <div class="animation-container">
-          @for (section of projectSections; track section.id) {
-            <div class="section-wrapper" [style.height.px]="section.height">
-              <app-code-section
-                [visibleLines]="section.visibleLines"
-                [isTransforming]="section.isTransforming"
-              />
-              @if (section.project) {
-                <app-project-card
-                  [project]="section.project"
-                  [visible]="section.showCard"
-                  [expanded]="section.isExpanded"
-                  (onExpand)="expandProject(section)"
+      <div class="container" [class.visible]="isStarted">
+        <div class="code-editor">
+          <app-editor-header />
+          <div class="animation-container">
+            @for (section of projectSections; track section.id) {
+              <div class="section-wrapper" [style.height.px]="section.height">
+                <app-code-section
+                  [visibleLines]="section.visibleLines"
+                  [isTransforming]="section.isTransforming"
                 />
-              }
-            </div>
-          }
+                @if (section.project) {
+                  <app-project-card
+                    [project]="section.project"
+                    [visible]="section.showCard"
+                    [expanded]="section.isExpanded"
+                    (onExpand)="expandProject(section)"
+                  />
+                }
+              </div>
+            }
+          </div>
         </div>
       </div>
     </div>
   `,
   styles: [`
-    :host {
+    .projects-container {
       background: #0a0a0a;
       color: #fff;
       min-height: 100vh;
       padding: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
     .container {
@@ -63,6 +62,7 @@ import { Project, ProjectSection } from '../../types/types';
       visibility: hidden;
       transition: all 0.3s ease;
       padding: 0 20px;
+      margin: 0 auto;
     }
 
     .container.visible {
