@@ -2,37 +2,41 @@
   <svg [attr.viewBox]="'0 0 ' + width + ' ' + height" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <radialGradient id="bg">
-        <stop offset="0%" stop-color="#1e1b4b"></stop>
-        <stop offset="100%" stop-color="#0f172a"></stop>
+        <stop offset="0%" stop-color="#242424"></stop>
+        <stop offset="100%" stop-color="#1a1a1a"></stop>
       </radialGradient>
 
       <linearGradient id="skillGradient" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="rgba(59, 130, 246, 0.2)">
-          <animate attributeName="stop-color"
-                   values="rgba(59, 130, 246, 0.2);rgba(99, 102, 241, 0.2);rgba(59, 130, 246, 0.2)"
+        <stop offset="0%" stop-color="rgba(255, 255, 255, 0.05)">
+          <animate attributename="stop-color"
+                   values="rgba(255, 255, 255, 0.05);rgba(255, 255, 255, 0.08);rgba(255, 255, 255, 0.05)"
                    dur="8s"
-                   repeatCount="indefinite"></animate>
+                   repeatcount="indefinite">
+          </animate>
         </stop>
-        <stop offset="100%" stop-color="rgba(37, 99, 235, 0.1)">
-          <animate attributeName="stop-color"
-                   values="rgba(37, 99, 235, 0.1);rgba(67, 56, 202, 0.1);rgba(37, 99, 235, 0.1)"
+        <stop offset="100%" stop-color="rgba(255, 255, 255, 0.02)">
+          <animate attributename="stop-color"
+                   values="rgba(255, 255, 255, 0.02);rgba(255, 255, 255, 0.04);rgba(255, 255, 255, 0.02)"
                    dur="8s"
-                   repeatCount="indefinite"></animate>
+                   repeatcount="indefinite">
+          </animate>
         </stop>
       </linearGradient>
 
       <linearGradient id="animatedGradient" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="rgba(96, 165, 250, 0.4)">
-          <animate attributeName="stop-color"
-                   values="rgba(96, 165, 250, 0.4);rgba(147, 197, 253, 0.4);rgba(96, 165, 250, 0.4)"
+        <stop offset="0%" stop-color="rgba(255, 255, 255, 0.08)">
+          <animate attributename="stop-color"
+                   values="rgba(255, 255, 255, 0.08);rgba(255, 255, 255, 0.12);rgba(255, 255, 255, 0.08)"
                    dur="3s"
-                   repeatCount="indefinite"></animate>
+                   repeatcount="indefinite">
+          </animate>
         </stop>
-        <stop offset="100%" stop-color="rgba(37, 99, 235, 0.2)">
-          <animate attributeName="stop-color"
-                   values="rgba(37, 99, 235, 0.2);rgba(59, 130, 246, 0.2);rgba(37, 99, 235, 0.2)"
+        <stop offset="100%" stop-color="rgba(255, 255, 255, 0.04)">
+          <animate attributename="stop-color"
+                   values="rgba(255, 255, 255, 0.04);rgba(255, 255, 255, 0.06);rgba(255, 255, 255, 0.04)"
                    dur="3s"
-                   repeatCount="indefinite"></animate>
+                   repeatcount="indefinite">
+          </animate>
         </stop>
       </linearGradient>
 
@@ -74,12 +78,6 @@
     <!-- Background -->
     <rect x="0" y="0" [attr.width]="width" [attr.height]="height" fill="url(#bg)" [attr.rx]="borderRadius" />
     <rect x="0" y="0" [attr.width]="width" [attr.height]="height" fill="url(#grid)" [attr.rx]="borderRadius" />
-
-    <!-- Title -->
-    <text [attr.x]="width/2" [attr.y]="titleY" fill="white" [attr.font-size]="fontSize"
-          text-anchor="middle" font-weight="bold" font-family="Arial, sans-serif" class="profile-title">
-      Skills Profile
-    </text>
 
     <!-- Main content -->
     <g [attr.transform]="'translate(' + width/2 + ',' + centerY + ')'">
