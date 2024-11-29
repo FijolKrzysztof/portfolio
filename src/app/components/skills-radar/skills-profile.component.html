@@ -163,11 +163,29 @@
       </g>
 
       <!-- Labels -->
-      <g [attr.font-size]="labelFontSize" font-family="Arial, sans-serif" font-weight="500" filter="url(#textShadow)" class="skill-labels">
-        <text [attr.x]="-radius * labelDistanceMultiplier" y="5" text-anchor="middle" fill="white" [class.hovered]="hoveredSkill === 'frontend'" class="skill-label" (mouseenter)="onSkillHover('frontend')" (mouseleave)="onSkillLeave()">Frontend</text>
-        <text [attr.x]="radius * labelDistanceMultiplier" y="5" text-anchor="middle" fill="white" [class.hovered]="hoveredSkill === 'backend'" class="skill-label" (mouseenter)="onSkillHover('backend')" (mouseleave)="onSkillLeave()">Backend</text>
-        <text x="0" [attr.y]="-radius * (labelDistanceMultiplier * 0.85)" text-anchor="middle" fill="white" [class.hovered]="hoveredSkill === 'uiux'" class="skill-label" (mouseenter)="onSkillHover('uiux')" (mouseleave)="onSkillLeave()">UI/UX</text>
-        <text x="0" [attr.y]="radius * 1.2" text-anchor="middle" fill="white" [class.hovered]="hoveredSkill === 'devops'" class="skill-label" (mouseenter)="onSkillHover('devops')" (mouseleave)="onSkillLeave()">DevOps</text>
+      <g [attr.font-size]="labelFontSize" font-family="Arial, sans-serif" font-weight="500"
+         filter="url(#textShadow)" class="skill-labels">
+        <text [attr.x]="-radius * labelDistanceMultiplier" y="5" class="skill-label side-label"
+              [class.hovered]="hoveredSkill === 'frontend'"
+              (mouseenter)="onSkillHover('frontend')"
+              (mouseleave)="onSkillLeave()">Frontend</text>
+
+        <text [attr.x]="radius * labelDistanceMultiplier" y="5" class="skill-label side-label"
+              [class.hovered]="hoveredSkill === 'backend'"
+              (mouseenter)="onSkillHover('backend')"
+              (mouseleave)="onSkillLeave()">Backend</text>
+
+        <text x="0" [attr.y]="-radius * (labelDistanceMultiplier * 0.85)"
+              class="skill-label top-label"
+              [class.hovered]="hoveredSkill === 'uiux'"
+              (mouseenter)="onSkillHover('uiux')"
+              (mouseleave)="onSkillLeave()">UI/UX</text>
+
+        <text x="0" [attr.y]="radius * 1.2"
+              class="skill-label bottom-label"
+              [class.hovered]="hoveredSkill === 'devops'"
+              (mouseenter)="onSkillHover('devops')"
+              (mouseleave)="onSkillLeave()">DevOps</text>
       </g>
     </g>
   </svg>
