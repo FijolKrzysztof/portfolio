@@ -43,7 +43,10 @@ import { Component } from '@angular/core';
   styles: [`
     .qa-section {
       width: 100%;
-      padding: 0 1rem;
+      max-width: 100%;
+      padding: 0 24px;
+      box-sizing: border-box;
+      overflow-x: hidden;
     }
 
     .section-title {
@@ -67,6 +70,7 @@ import { Component } from '@angular/core';
     }
 
     .qa-container {
+      width: 100%;
       max-width: 800px;
       margin: 0 auto;
       background: rgba(255, 255, 255, 0.01);
@@ -74,6 +78,7 @@ import { Component } from '@angular/core';
       border-radius: 24px;
       backdrop-filter: blur(20px);
       padding: 2rem;
+      box-sizing: border-box;
     }
 
     .qa-item {
@@ -105,11 +110,12 @@ import { Component } from '@angular/core';
       line-height: 1.6;
       color: #94a3b8;
       margin: 0;
-      max-width: 650px;
+      max-width: 100%;
     }
 
     @media (max-width: 768px) {
       .qa-section {
+        padding: 0 16px;
         margin-bottom: 4rem;
       }
 
@@ -119,10 +125,11 @@ import { Component } from '@angular/core';
 
       .section-description {
         font-size: 1rem;
+        padding: 0 8px;
       }
 
       .qa-container {
-        padding: 1.5rem;
+        padding: 1.25rem;
       }
 
       .qa-item {
@@ -135,6 +142,20 @@ import { Component } from '@angular/core';
 
       .qa-content {
         font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .qa-section {
+        padding: 0 12px;
+      }
+
+      .qa-container {
+        padding: 1rem;
+      }
+
+      .qa-item {
+        padding: 1.25rem 0;
       }
     }
   `]
