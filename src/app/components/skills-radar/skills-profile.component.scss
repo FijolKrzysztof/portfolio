@@ -3,7 +3,6 @@
   width: 100%;
   height: 100%;
   margin: 0 auto;
-  aspect-ratio: 400/450;
 }
 
 svg {
@@ -12,50 +11,12 @@ svg {
   display: block;
 }
 
-// Reszta styli pozostaje bez zmian
-.profile-title {
-  transform-origin: center;
-  transition: font-size 0.3s ease;
-}
-
-.skill-labels text {
-  opacity: 1;
-  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-
-  &:hover, &.hovered {
-    fill: #60a5fa;
-    filter: url(#hoverGlow);
+// Guidelines and animations
+.rotating-lines {
+  .guideline {
+    stroke: rgba(255,255,255,0.12);
+    stroke-width: 0.5;
   }
-}
-
-.skill-point {
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-
-  circle {
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  &.active {
-    circle {
-      fill: #93c5fd;
-      filter: url(#hoverGlow);
-      animation: skillPointPulse 1.5s infinite;
-    }
-  }
-}
-
-.skill-area-base, .skill-area-overlay {
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-
-  &:hover {
-    filter: url(#hoverGlow);
-  }
-}
-
-.skill-area-overlay {
-  pointer-events: none;
 }
 
 .guideline-hitbox {
@@ -86,50 +47,60 @@ svg {
 }
 
 .guideline {
+  fill: none;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: none;
-}
-
-@keyframes skillPointPulse {
-  0% {
-    transform: scale(1);
-    filter: brightness(1);
-  }
-  50% {
-    transform: scale(1.2); // Zmniejszone z 1.3 na 1.2
-    filter: brightness(1.5);
-  }
-  100% {
-    transform: scale(1);
-    filter: brightness(1);
-  }
 }
 
 .guideline-ripple {
   opacity: 0;
   fill: none;
-  stroke: rgba(96, 165, 250, 0.5); // Zwiększona nieprzezroczystość z 0.3 na 0.5
+  stroke: rgba(96, 165, 250, 0.5);
   pointer-events: none;
 }
 
-@keyframes ripple {
-  0% {
-    transform: scale(1);
-    opacity: 0.5; // Zwiększona początkowa nieprzezroczystość z 0.5 na 0.7
-    stroke-width: 2;
+// Skill points
+.skill-point {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+  circle {
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:first-child {
+      fill: #60a5fa;
+      fill-opacity: 0.3;
+    }
+
+    &:last-child {
+      fill: #60a5fa;
+    }
   }
-  100% {
-    transform: scale(1.2); // Zwiększona skala z 1.15 na 1.2
-    opacity: 0;
-    stroke-width: 0;
+
+  &.active {
+    circle {
+      fill: #93c5fd;
+      filter: url(#hoverGlow);
+      animation: skillPointPulse 1.5s infinite;
+    }
   }
 }
 
-.guideline-hitbox:hover {
-  & + .guideline {
-    stroke: rgba(255, 255, 255, 0.3); // Zwiększona widoczność z 0.3 na 0.5
-    stroke-width: 2;
-  }
+// Skill area
+.skill-area-base {
+  fill: url(#skillGradient);
+  stroke: #3b82f6;
+  stroke-width: 2;
+  opacity: 0.7;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.skill-area-overlay {
+  fill: url(#animatedGradient);
+  filter: url(#turbulence);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .skill-area-group {
@@ -148,16 +119,58 @@ svg {
   }
 }
 
-circle.hovered {
-  fill: #93c5fd;
-  filter: url(#hoverGlow);
+// Labels
+.skill-labels {
+  .skill-label {
+    text-anchor: middle;
+    fill: white;
+    opacity: 1;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+
+    &:hover, &.hovered {
+      fill: #60a5fa;
+      filter: url(#hoverGlow);
+    }
+  }
 }
 
-.skill-label {
-  transition: fill 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+// Media query for small screens
+@media screen and (max-width: 300px) {
+  .skill-label.side-label {
+    writing-mode: vertical-lr;
+    text-orientation: upright;
+    letter-spacing: 0.2em;
+    dominant-baseline: middle;
+    text-transform: uppercase;
+  }
+}
 
-  &.hovered {
-    fill: #60a5fa;
-    filter: url(#hoverGlow);
+// Animations
+@keyframes skillPointPulse {
+  0% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.2);
+    filter: brightness(1.5);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+    stroke-width: 2;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+    stroke-width: 0;
   }
 }
