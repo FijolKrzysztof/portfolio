@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { StartButtonComponent } from './components/start-button/start-button.component';
-import { EditorHeaderComponent } from './components/editor-header/editor-header.component';
-import { CodeSectionComponent } from './components/code-section/code-section.component';
-import { ProjectCardComponent } from './components/project-card/project-card.component';
-import { Project, ProjectSection } from '../../types/types';
+import { StartButtonComponent } from './components/start-button.component';
+import { CodeSectionComponent } from './components/code-section.component';
+import { ProjectCardComponent } from './components/project-card.component';
+import { Project, ProjectSection } from '../../../../types/types';
 
 @Component({
   selector: 'app-animated-projects',
@@ -12,7 +11,6 @@ import { Project, ProjectSection } from '../../types/types';
   imports: [
     CommonModule,
     StartButtonComponent,
-    EditorHeaderComponent,
     CodeSectionComponent,
     ProjectCardComponent
   ],
@@ -24,8 +22,8 @@ import { Project, ProjectSection } from '../../types/types';
       />
 
       <div class="container" [class.visible]="isStarted">
+<!--        <app-editor-header />-->
         <div class="code-editor">
-          <app-editor-header />
           <div class="animation-container">
             @for (section of projectSections; track section.id) {
               <div class="section-wrapper" [style.height.px]="section.height">
@@ -50,18 +48,15 @@ import { Project, ProjectSection } from '../../types/types';
   `,
   styles: [`
     .projects-container {
-      background: #0a0a0a;
-      color: #fff;
-      min-height: 100vh;
-      padding: 20px;
+      width: 100%;
+      color: #f8fafc;
     }
 
     .container {
-      width: min(800px, 100%);
+      width: 100%;
       opacity: 0;
       visibility: hidden;
       transition: all 0.3s ease;
-      padding: 0 20px;
       margin: 0 auto;
     }
 
@@ -71,10 +66,12 @@ import { Project, ProjectSection } from '../../types/types';
     }
 
     .code-editor {
-      background: #1a1a1a;
-      border-radius: 8px;
-      padding: 20px;
-      box-shadow: 0 0 30px rgba(100, 108, 255, 0.1);
+      box-sizing: border-box;
+      background: rgba(255, 255, 255, 0.01);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
       width: 100%;
     }
 
@@ -89,6 +86,26 @@ import { Project, ProjectSection } from '../../types/types';
       min-height: 50px;
       transition: height 0.3s ease;
       margin-bottom: 40px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .code-editor {
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .code-editor {
+        padding: 16px;
+      }
+
+      .section-wrapper {
+        margin-bottom: 24px;
+      }
     }
   `]
 })
@@ -137,60 +154,6 @@ export class AnimatedProjectsComponent implements OnInit {
       tech: ["Angular", "OpenAI", "Socket.io", "TailwindCSS"],
       githubUrl: "https://github.com/yourusername/chat-hub",
       demoUrl: "https://chat-hub-demo.vercel.app"
-    },
-    techSpec: {
-      lines: [
-        { isVisible: false, text: "@ProjectCard({", class: "purple" },
-        { isVisible: false, text: "  selector: 'app-tech-spec',", class: "white" },
-        { isVisible: false, text: "  styles: [", class: "blue" },
-        { isVisible: false, text: "    surface: {", class: "orange" },
-        { isVisible: false, text: "      display: 'flex',", class: "yellow" },
-        { isVisible: false, text: "      background: '#1e1e2e',", class: "yellow" },
-        { isVisible: false, text: "      borderRadius: '12px',", class: "yellow" },
-        { isVisible: false, text: "      gap: '1.25rem'", class: "yellow" },
-        { isVisible: false, text: "    },", class: "orange" },
-        { isVisible: false, text: "    // Tech spec component styles", class: "comment" },
-        { isVisible: false, text: "    title: 'TechSpec',", class: "green" },
-        { isVisible: false, text: "    icon: `", class: "blue" },
-        { isVisible: false, text: "      <svg viewBox=\"0 0 24 24\">", class: "white" },
-        { isVisible: false, text: "        <rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\"/>", class: "purple" },
-        { isVisible: false, text: "        <path d=\"M20 7h-3m-1 0h-2M4 7h10\"/>", class: "purple" },
-        { isVisible: false, text: "      </svg>", class: "white" },
-        { isVisible: false, text: "    `,", class: "blue" },
-        { isVisible: false, text: "})", class: "purple" }
-      ],
-      title: "TechSpec",
-      icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- Tło -->
-  <defs>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#22d3ee;stop-opacity:1" />
-    </linearGradient>
-  </defs>
-
-  <!-- Główny kształt - zaokrąglony kwadrat -->
-  <rect x="2" y="2" width="28" height="28" rx="8"
-        fill="url(#grad)" />
-
-  <!-- Litera T stylizowana na tech/minimalistyczny design -->
-  <path d="M8 8h16v4h-6v12h-4V12H8V8z"
-        fill="rgba(0,0,0,0.85)"
-        stroke="none" />
-
-  <!-- Dekoracyjny element - "obwód" -->
-  <path d="M24 16a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2"
-        fill="none"
-        stroke="rgba(0,0,0,0.85)"
-        stroke-width="2"
-        stroke-linecap="round" />
-</svg>
-`,
-      shortDescription: "Modern e-commerce platform for tech products",
-      description: "Feature-rich e-commerce platform designed specifically for technology products. Includes advanced filtering, real-time inventory tracking, detailed product specifications, customer reviews, and secure payment processing. The admin dashboard provides comprehensive analytics and inventory management tools.",
-      tech: ["Angular", "NgRx", "Stripe", "TailwindCSS"],
-      githubUrl: "https://github.com/yourusername/tech-spec",
-      demoUrl: "https://tech-spec-demo.vercel.app"
     },
     easyTrade: {
       lines: [
@@ -258,7 +221,61 @@ export class AnimatedProjectsComponent implements OnInit {
       tech: ["Angular", "D3.js", "WebSocket", "TailwindCSS"],
       githubUrl: "https://github.com/yourusername/easy-trade",
       demoUrl: "https://easy-trade-demo.vercel.app"
-    }
+    },
+    techSpec: {
+      lines: [
+        { isVisible: false, text: "@ProjectCard({", class: "purple" },
+        { isVisible: false, text: "  selector: 'app-tech-spec',", class: "white" },
+        { isVisible: false, text: "  styles: [", class: "blue" },
+        { isVisible: false, text: "    surface: {", class: "orange" },
+        { isVisible: false, text: "      display: 'flex',", class: "yellow" },
+        { isVisible: false, text: "      background: '#1e1e2e',", class: "yellow" },
+        { isVisible: false, text: "      borderRadius: '12px',", class: "yellow" },
+        { isVisible: false, text: "      gap: '1.25rem'", class: "yellow" },
+        { isVisible: false, text: "    },", class: "orange" },
+        { isVisible: false, text: "    // Tech spec component styles", class: "comment" },
+        { isVisible: false, text: "    title: 'TechSpec',", class: "green" },
+        { isVisible: false, text: "    icon: `", class: "blue" },
+        { isVisible: false, text: "      <svg viewBox=\"0 0 24 24\">", class: "white" },
+        { isVisible: false, text: "        <rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\"/>", class: "purple" },
+        { isVisible: false, text: "        <path d=\"M20 7h-3m-1 0h-2M4 7h10\"/>", class: "purple" },
+        { isVisible: false, text: "      </svg>", class: "white" },
+        { isVisible: false, text: "    `,", class: "blue" },
+        { isVisible: false, text: "})", class: "purple" }
+      ],
+      title: "TechSpec",
+      icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Tło -->
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#22d3ee;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Główny kształt - zaokrąglony kwadrat -->
+  <rect x="2" y="2" width="28" height="28" rx="8"
+        fill="url(#grad)" />
+
+  <!-- Litera T stylizowana na tech/minimalistyczny design -->
+  <path d="M8 8h16v4h-6v12h-4V12H8V8z"
+        fill="rgba(0,0,0,0.85)"
+        stroke="none" />
+
+  <!-- Dekoracyjny element - "obwód" -->
+  <path d="M24 16a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2"
+        fill="none"
+        stroke="rgba(0,0,0,0.85)"
+        stroke-width="2"
+        stroke-linecap="round" />
+</svg>
+`,
+      shortDescription: "Modern e-commerce platform for tech products",
+      description: "Feature-rich e-commerce platform designed specifically for technology products. Includes advanced filtering, real-time inventory tracking, detailed product specifications, customer reviews, and secure payment processing. The admin dashboard provides comprehensive analytics and inventory management tools.",
+      tech: ["Angular", "NgRx", "Stripe", "TailwindCSS"],
+      githubUrl: "https://github.com/yourusername/tech-spec",
+      demoUrl: "https://tech-spec-demo.vercel.app"
+    },
   };
 
   ngOnInit() {
