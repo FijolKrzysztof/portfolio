@@ -14,7 +14,8 @@ import { SkillsProfileComponent } from './components/skills-radar/skills-profile
           With a comprehensive skill set spanning multiple domains, I bring full-stack mastery
           to every project. Here's how my expertise breaks down across key areas:
         </p>
-        <div class="radar-container">
+        <div class="radar-container" (mouseenter)="handleHover()">
+          <span class="corner-hint" [class.fade-out]="isHintHidden">Interactive</span>
           <app-skills-profile />
         </div>
       </div>
@@ -46,12 +47,48 @@ import { SkillsProfileComponent } from './components/skills-radar/skills-profile
     }
 
     .radar-container {
+      position: relative;
       width: 100%;
       background: rgba(255, 255, 255, 0.01);
       border-radius: 24px;
       border: 1px solid rgba(255, 255, 255, 0.03);
       backdrop-filter: blur(20px);
       overflow: hidden;
+    }
+
+    .corner-hint {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 0.75rem;
+      color: #64748b;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.03);
+      z-index: 1;
+      animation: pulse 2s infinite;
+    }
+
+    .corner-hint.fade-out {
+      animation: fadeOut 0.8s ease-out forwards;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.4; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.02); }
+      100% { opacity: 0.4; transform: scale(1); }
+    }
+
+    @keyframes fadeOut {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.95);
+        visibility: hidden;
+      }
     }
 
     @media (max-width: 1024px) {
@@ -77,4 +114,12 @@ import { SkillsProfileComponent } from './components/skills-radar/skills-profile
     }
   `]
 })
-export class SkillsSectionComponent {}
+export class SkillsSectionComponent {
+  isHintHidden = false;
+
+  handleHover() {
+    setTimeout(() => {
+      this.isHintHidden = true;
+    }, 2000);
+  }
+}
