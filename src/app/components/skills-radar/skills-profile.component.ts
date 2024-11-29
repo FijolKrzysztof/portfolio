@@ -16,10 +16,8 @@ export class SkillsProfileComponent implements OnInit {
   fontSize = 28;
   labelFontSize = 16;
   borderRadius = 20;
-  titleY = 50;
   centerY = 225;
   labelDistanceMultiplier = 1.333;
-  viewBox = `0 0 ${this.width} ${this.height}`;
   containerWidth = '100%';
   hoveredSkill: string | null = null;
   pointPositions = {
@@ -134,7 +132,6 @@ export class SkillsProfileComponent implements OnInit {
       this.fontSize = 24;
       this.labelFontSize = 16;
       this.pointRadius = 3;
-      this.titleY = 40;
       this.radius = 90;
       this.centerY = 200;
       this.labelDistanceMultiplier = 1.5;
@@ -142,7 +139,6 @@ export class SkillsProfileComponent implements OnInit {
       this.fontSize = 26;
       this.labelFontSize = 15;
       this.pointRadius = 3.5;
-      this.titleY = 45;
       this.radius = 100;
       this.centerY = 215;
       this.labelDistanceMultiplier = 1.4;
@@ -150,7 +146,6 @@ export class SkillsProfileComponent implements OnInit {
       this.fontSize = 28;
       this.labelFontSize = 14;
       this.pointRadius = 4;
-      this.titleY = 50;
       this.radius = 120;
       this.centerY = 225;
       this.labelDistanceMultiplier = 1.333;
