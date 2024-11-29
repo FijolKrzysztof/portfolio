@@ -311,7 +311,7 @@ export class AnimatedProjectsComponent implements OnInit {
 
   private async typeCode(project: Project, sectionIndex: number) {
     const section = this.projectSections[sectionIndex];
-    section.height = project.lines.length * 16;
+    section.height = project.lines.length * 17;
 
     for (const line of project.lines) {
       const newLine = { ...line, isVisible: false };
