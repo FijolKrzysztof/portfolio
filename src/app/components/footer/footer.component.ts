@@ -28,7 +28,6 @@ import { Component } from '@angular/core';
   `,
   styles: [`
     .social-section {
-      margin: 6rem auto 0;
       padding: 0 1rem;
     }
 
