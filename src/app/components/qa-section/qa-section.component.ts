@@ -7,31 +7,34 @@ import { Component } from '@angular/core';
     <section class="qa-section">
       <h2 class="section-title">About Me</h2>
       <p class="section-description">
-        Learn more about my approach to development and what makes me stand out
+        Let me share a bit about who I am and what drives me in web development
       </p>
 
       <div class="qa-container">
         <div class="qa-item">
           <h3 class="qa-title">Who Am I?</h3>
           <p class="qa-content">
-            I'm a passionate full-stack developer with an insatiable drive for excellence.
-            I believe in continuous growth and pushing boundaries in everything I do.
+            I'm a web developer who finds joy in turning ideas into beautiful, functional websites.
+            When I'm not coding, you'll find me pushing my boundaries - whether it's taking ice baths,
+            martial arts, or traveling solo across Southeast Asia. I believe the best growth happens outside your comfort zone.
           </p>
         </div>
 
         <div class="qa-item">
           <h3 class="qa-title">What Makes Me Different?</h3>
           <p class="qa-content">
-            I don't just write code - I craft solutions. My unique blend of technical expertise
-            and creative problem-solving allows me to tackle challenges from multiple angles.
+            I believe that great websites are born from understanding both code and people.
+            While I love diving deep into technical challenges, I'm equally passionate about
+            creating interfaces that feel intuitive and bring genuine value to users.
           </p>
         </div>
 
         <div class="qa-item">
           <h3 class="qa-title">Why Work With Me?</h3>
           <p class="qa-content">
-            You get a dedicated professional who treats your project as their own.
-            I bring the expertise of an entire IT department with the efficiency of a single point of contact.
+            I take full ownership of the projects I work on. Share your vision with me, and you can
+            focus on running your business while I handle the technical side. I pride myself on finding
+            the right solutions and delivering results you can count on.
           </p>
         </div>
       </div>
