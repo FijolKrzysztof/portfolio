@@ -1,7 +1,7 @@
 .container {
   display: block;
   width: 100%;
-  max-width: 800px;
+  height: 100%;
   margin: 0 auto;
   aspect-ratio: 400/450;
 }
@@ -12,6 +12,7 @@ svg {
   display: block;
 }
 
+// Reszta styli pozostaje bez zmian
 .profile-title {
   transform-origin: center;
   transition: font-size 0.3s ease;

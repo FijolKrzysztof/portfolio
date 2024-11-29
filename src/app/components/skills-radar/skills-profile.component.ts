@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -10,13 +10,13 @@ import { CommonModule } from '@angular/common';
 })
 export class SkillsProfileComponent implements OnInit {
   width = 400;
-  height = 450;
+  height = 350;
   radius = 120;
   pointRadius = 4;
   fontSize = 28;
   labelFontSize = 16;
   borderRadius = 20;
-  centerY = 225;
+  centerY = 175;
   labelDistanceMultiplier = 1.333;
   containerWidth = '100%';
   hoveredSkill: string | null = null;
@@ -45,17 +45,50 @@ export class SkillsProfileComponent implements OnInit {
   skills = ['frontend', 'backend', 'uiux', 'devops'];
   isHovered = false;
 
-  constructor() {}
+  constructor(private elementRef: ElementRef) {}
 
   ngOnInit() {
-    this.updateDimensions();
-    this.calculatePointPositions();
-    this.calculateControlPoints();
+    // this.updateDimensions();
+    // Inicjalne ustawienie po załadowaniu komponentu
+    setTimeout(() => {
+      this.adjustToContainer();
+    });
   }
 
   @HostListener('window:resize')
   onResize() {
-    this.updateDimensions();
+    this.adjustToContainer();
+  }
+
+  private adjustToContainer() {
+    const container = this.elementRef.nativeElement.parentElement;
+    if (!container) return;
+
+    const containerWidth = container.offsetWidth;
+    const containerHeight = container.offsetHeight;
+
+    // Zachowujemy proporcje 400:450
+    const aspectRatio = 350/400;
+
+    if (containerWidth * aspectRatio <= containerHeight) {
+      // Szerokość jest ograniczeniem
+      this.width = containerWidth;
+      this.height = containerWidth * aspectRatio;
+    } else {
+      // Wysokość jest ograniczeniem
+      this.height = containerHeight;
+      this.width = containerHeight / aspectRatio;
+    }
+
+    // Skalujemy pozostałe wymiary proporcjonalnie
+    const scale = this.width / 400; // 400 to bazowa szerokość
+    this.radius = 120 * scale;
+    this.pointRadius = 4 * scale;
+    this.fontSize = 28 * scale;
+    this.labelFontSize = 14 * Math.max(scale, 0.8); // Ograniczamy maksymalny rozmiar czcionki
+    this.centerY = this.height / 2;
+
+    // Aktualizujemy pozycje punktów i punktów kontrolnych
     this.calculatePointPositions();
     this.calculateControlPoints();
   }
@@ -82,7 +115,7 @@ export class SkillsProfileComponent implements OnInit {
   }
 
   private calculateControlPoints() {
-    // Normalne punkty kontrolne (mniejsze zakrzywienie)
+    // Normalne punkty kontrolne
     const normalCurve = 0.3;
     this.controlPoints.normal = {
       frontend_uiux: {
@@ -103,7 +136,7 @@ export class SkillsProfileComponent implements OnInit {
       }
     };
 
-    // Punkty kontrolne dla hovera (większe zakrzywienie)
+    // Punkty kontrolne dla hovera
     const hoverCurve = 0.5;
     this.controlPoints.hover = {
       frontend_uiux: {
@@ -123,33 +156,6 @@ export class SkillsProfileComponent implements OnInit {
         y: (this.pointPositions.devops.y + this.pointPositions.frontend.y) * hoverCurve
       }
     };
-  }
-
-  private updateDimensions() {
-    const containerWidth = window.innerWidth;
-
-    if (containerWidth < 400) {
-      this.fontSize = 24;
-      this.labelFontSize = 16;
-      this.pointRadius = 3;
-      this.radius = 90;
-      this.centerY = 200;
-      this.labelDistanceMultiplier = 1.5;
-    } else if (containerWidth < 600) {
-      this.fontSize = 26;
-      this.labelFontSize = 15;
-      this.pointRadius = 3.5;
-      this.radius = 100;
-      this.centerY = 215;
-      this.labelDistanceMultiplier = 1.4;
-    } else {
-      this.fontSize = 28;
-      this.labelFontSize = 14;
-      this.pointRadius = 4;
-      this.radius = 120;
-      this.centerY = 225;
-      this.labelDistanceMultiplier = 1.333;
-    }
   }
 
   getSkillPath(): string {
