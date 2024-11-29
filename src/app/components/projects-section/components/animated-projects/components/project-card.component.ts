@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Project } from '../../../../types/types';
+import { Project } from '../../../../../types/types';
 
 @Component({
   selector: 'app-project-card',
@@ -65,20 +65,20 @@ import { Project } from '../../../../types/types';
   `,
   styles: [`
     .project-card {
-      background: #1e1e2e;
-      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.01);
+      border-radius: 16px;
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
       opacity: 0;
-      border: 1px solid rgba(100, 108, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.03);
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       pointer-events: none;
       overflow: hidden;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(20px);
       display: flex;
-      height: 120px; /* Stała wysokość dla wszystkich breakpointów */
+      height: 120px;
     }
 
     .project-card.visible {
@@ -87,13 +87,14 @@ import { Project } from '../../../../types/types';
     }
 
     .card-main {
-      padding: 20px;
+      padding: 24px;
       display: flex;
-      gap: 20px;
+      gap: 24px;
       align-items: center;
       cursor: pointer;
       flex: 1;
       min-width: 0;
+      transition: all 0.3s ease;
     }
 
     .icon-section {
@@ -101,20 +102,21 @@ import { Project } from '../../../../types/types';
     }
 
     .icon {
-      width: 52px;
-      height: 52px;
+      width: 56px;
+      height: 56px;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(100, 108, 255, 0.1);
+      background: rgba(255, 255, 255, 0.01);
+      border: 1px solid rgba(255, 255, 255, 0.03);
       border-radius: 14px;
       padding: 12px;
+      transition: all 0.3s ease;
     }
 
-    .icon svg {
-      width: 100%;
-      height: 100%;
-      color: #646cff;
+    .card-main:hover .icon {
+      transform: scale(1.05);
+      border-color: rgba(255, 255, 255, 0.1);
     }
 
     .content-section {
@@ -133,15 +135,20 @@ import { Project } from '../../../../types/types';
       font-size: 1.25rem;
       font-weight: 600;
       margin: 0;
-      color: #fff;
-      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      color: #f8fafc;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      transition: color 0.3s ease;
+    }
+
+    .card-main:hover .card-title {
+      color: #6366f1;
     }
 
     .short-description {
       color: #94a3b8;
       margin: 4px 0 0;
       font-size: 0.875rem;
-      line-height: 1.4;
+      line-height: 1.5;
     }
 
     .action-buttons {
@@ -154,40 +161,42 @@ import { Project } from '../../../../types/types';
       align-items: center;
       justify-content: center;
       gap: 6px;
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 0.8125rem;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.875rem;
       font-weight: 500;
       text-decoration: none;
       transition: all 0.2s ease;
+      border: 1px solid rgba(255, 255, 255, 0.03);
     }
 
     .action-button.github {
-      background: rgba(255, 255, 255, 0.1);
-      color: #fff;
+      background: rgba(255, 255, 255, 0.01);
+      color: #f8fafc;
+    }
+
+    .action-button.github:hover {
+      border-color: rgba(255, 255, 255, 0.1);
     }
 
     .action-button.demo {
-      background: #646cff;
-      color: #fff;
+      background: rgba(99, 102, 241, 0.1);
+      border-color: rgba(99, 102, 241, 0.2);
+      color: #6366f1;
+    }
+
+    .action-button.demo:hover {
+      background: rgba(99, 102, 241, 0.15);
+      border-color: rgba(99, 102, 241, 0.3);
     }
 
     .action-button:hover {
       transform: translateY(-1px);
-      filter: brightness(1.1);
-    }
-
-    .expand-icon {
-      color: #646cff;
-      transition: transform 0.3s ease;
-    }
-
-    .expand-icon.expanded {
-      transform: rotate(90deg);
     }
 
     .side-panel {
-      background: #252538;
+      background: rgba(255, 255, 255, 0.01);
+      border-left: 1px solid rgba(255, 255, 255, 0.03);
       width: 0;
       overflow: hidden;
       transition: all 0.3s ease;
@@ -196,11 +205,10 @@ import { Project } from '../../../../types/types';
 
     .side-panel.expanded {
       width: 300px;
-      border-left: 1px solid rgba(100, 108, 255, 0.15);
     }
 
     .panel-content {
-      padding: 20px;
+      padding: 24px;
       width: 300px;
     }
 
@@ -211,7 +219,7 @@ import { Project } from '../../../../types/types';
       font-size: 0.9375rem;
     }
 
-    @media (max-width: 630px) {
+    @media (max-width: 500px) {
       .card-main {
         gap: 12px;
         padding: 16px;
