@@ -52,6 +52,7 @@ import { ProjectModalComponent } from './components/project-modal.component';
     <app-project-modal
       [project]="project"
       [(visible)]="isModalOpen"
+      (visibleChange)="isModalOpen = $event"
     />
   `,
   styles: [`
