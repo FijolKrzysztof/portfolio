@@ -15,14 +15,13 @@ import { Project, ProjectSection } from '../../../../types/types';
     ProjectCardComponent
   ],
   template: `
-    <div class="projects-container">
+    <div class="projects-container" (click)="skipAnimation($event)">
       <app-start-button
         *ngIf="!isStarted"
         (onClick)="startAnimation()"
       />
 
       <div class="container" [class.visible]="isStarted">
-<!--        <app-editor-header />-->
         <div class="code-editor">
           <div class="animation-container">
             @for (section of projectSections; track section.id) {
@@ -112,6 +111,8 @@ import { Project, ProjectSection } from '../../../../types/types';
 export class AnimatedProjectsComponent implements OnInit {
   isStarted = false;
   projectSections: ProjectSection[] = [];
+  private shouldSkip = false;
+  private isAnimating = false;
 
   private readonly projects: Record<string, Project> = {
     chatHub: {
@@ -290,16 +291,84 @@ export class AnimatedProjectsComponent implements OnInit {
     }));
   }
 
+  skipAnimation(event: MouseEvent) {
+    // Nie przerywamy animacji jeśli klik był na przycisk start
+    if (event.target instanceof Element &&
+      (event.target.closest('button.start-button') || !this.isStarted || !this.isAnimating)) {
+      return;
+    }
+
+    event.stopPropagation();
+    this.shouldSkip = true;
+  }
+
   async startAnimation() {
     this.isStarted = true;
+    this.shouldSkip = false;
+    this.isAnimating = true;
 
     for (const [key, project] of Object.entries(this.projects)) {
       const sectionIndex = Object.keys(this.projects).indexOf(key);
+
+      if (this.shouldSkip) {
+        await this.finishAllAnimations();
+        break;
+      }
+
       await this.typeCode(project, sectionIndex);
+      if (this.shouldSkip) {
+        await this.finishAllAnimations();
+        break;
+      }
+
       await this.sleep(200);
+      if (this.shouldSkip) {
+        await this.finishAllAnimations();
+        break;
+      }
+
       await this.transformToCard(project, sectionIndex);
+      if (this.shouldSkip) {
+        await this.finishAllAnimations();
+        break;
+      }
+
       await this.sleep(300);
     }
+
+    this.isAnimating = false;
+  }
+
+  private async finishAllAnimations() {
+    const projects = Object.entries(this.projects);
+
+    // Najpierw pokazujemy cały kod dla wszystkich projektów
+    for (const [key, project] of projects) {
+      const sectionIndex = Object.keys(this.projects).indexOf(key);
+      const section = this.projectSections[sectionIndex];
+      if (!section.showCard) {
+        section.height = project.lines.length * 17;
+        section.visibleLines = project.lines.map(line => ({ ...line, isVisible: true }));
+      }
+    }
+
+    // Następnie sekwencyjnie transformujemy w karty
+    for (const [key, project] of projects) {
+      const sectionIndex = Object.keys(this.projects).indexOf(key);
+      const section = this.projectSections[sectionIndex];
+
+      if (!section.showCard) {
+        section.isTransforming = true;
+        section.project = project;
+        await this.sleep(50); // Krótka przerwa przed pokazaniem karty
+        section.showCard = true;
+        section.height = 120;
+        await this.sleep(100); // Krótka przerwa między transformacjami
+      }
+    }
+
+    this.isAnimating = false;
+    this.shouldSkip = false;
   }
 
   expandProject(section: ProjectSection) {
@@ -314,15 +383,22 @@ export class AnimatedProjectsComponent implements OnInit {
     section.height = project.lines.length * 17;
 
     for (const line of project.lines) {
+      if (this.shouldSkip) break;
+
       const newLine = { ...line, isVisible: false };
       section.visibleLines = [...section.visibleLines, newLine];
 
-      for (let i = 0; i <= line.text.length; i++) {
-        await this.sleep(Math.random() * 5 + 2);
+      if (!this.shouldSkip) {
+        for (let i = 0; i <= line.text.length; i++) {
+          if (this.shouldSkip) break;
+          await this.sleep(Math.random() * 5 + 2);
+        }
       }
 
       section.visibleLines[section.visibleLines.length - 1].isVisible = true;
-      await this.sleep(10);
+      if (!this.shouldSkip) {
+        await this.sleep(10);
+      }
     }
   }
 
@@ -331,10 +407,14 @@ export class AnimatedProjectsComponent implements OnInit {
     section.isTransforming = true;
     section.project = project;
 
-    await this.sleep(150);
+    if (!this.shouldSkip) {
+      await this.sleep(150);
+    }
     section.showCard = true;
 
-    await this.sleep(250);
+    if (!this.shouldSkip) {
+      await this.sleep(250);
+    }
     section.height = 120;
   }
 
