@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StartButtonComponent } from './components/start-button.component';
 import { CodeSectionComponent } from './components/code-section.component';
-import { ProjectCardComponent } from './components/project-card.component';
+import { ProjectCardComponent } from './components/project-card/project-card.component';
 import { Project, ProjectSection } from '../../../../types/types';
 
 @Component({

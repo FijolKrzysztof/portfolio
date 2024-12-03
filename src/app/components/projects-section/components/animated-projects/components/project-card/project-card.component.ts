@@ -1,19 +1,20 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Project } from '../../../../../types/types';
+import { Project } from '../../../../../../types/types';
+import { ProjectModalComponent } from './components/project-modal.component';
 
 @Component({
   selector: 'app-project-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ProjectModalComponent],
   template: `
     <div
       class="project-card"
       [class.visible]="visible"
       [class.expanded]="expanded">
 
-      <div class="card-main" (click)="onExpand.emit()">
+      <div class="card-main" (click)="isModalOpen = true">
         <div class="icon-section">
           <div class="icon" [innerHTML]="sanitizedIcon"></div>
         </div>
@@ -26,7 +27,7 @@ import { Project } from '../../../../../types/types';
 
           <div class="action-buttons hide-mobile">
             @if (project.demoUrl) {
-              <a [href]="project.demoUrl" target="_blank" rel="noopener noreferrer" class="action-button demo">
+              <a [href]="project.demoUrl" target="_blank" rel="noopener noreferrer" class="action-button demo" (click)="$event.stopPropagation()">
                 <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none">
                   <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                   <polyline points="15 3 21 3 21 9"></polyline>
@@ -36,7 +37,7 @@ import { Project } from '../../../../../types/types';
               </a>
             }
             @if (project.githubUrl) {
-              <a [href]="project.githubUrl" target="_blank" rel="noopener noreferrer" class="action-button github">
+              <a [href]="project.githubUrl" target="_blank" rel="noopener noreferrer" class="action-button github" (click)="$event.stopPropagation()">
                 <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none">
                   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
                 </svg>
@@ -45,23 +46,13 @@ import { Project } from '../../../../../types/types';
             }
           </div>
         </div>
-
-        <div
-          class="expand-icon"
-          [class.expanded]="expanded"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="9 18 15 12 9 6"></polyline>
-          </svg>
-        </div>
-      </div>
-
-      <div class="side-panel" [class.expanded]="expanded">
-        <div class="panel-content">
-          <p class="description">{{ project.description }}</p>
-        </div>
       </div>
     </div>
+
+    <app-project-modal
+      [project]="project"
+      [(visible)]="isModalOpen"
+    />
   `,
   styles: [`
     .project-card {
@@ -194,32 +185,7 @@ import { Project } from '../../../../../types/types';
       transform: translateY(-1px);
     }
 
-    .side-panel {
-      background: rgba(255, 255, 255, 0.01);
-      border-left: 1px solid rgba(255, 255, 255, 0.03);
-      width: 0;
-      overflow: hidden;
-      transition: all 0.3s ease;
-      flex-shrink: 0;
-    }
-
-    .side-panel.expanded {
-      width: 300px;
-    }
-
-    .panel-content {
-      padding: 24px;
-      width: 300px;
-    }
-
-    .description {
-      color: #94a3b8;
-      margin: 0;
-      line-height: 1.6;
-      font-size: 0.9375rem;
-    }
-
-    @media (max-width: 500px) {
+    @media (max-width: 550px) {
       .card-main {
         gap: 12px;
         padding: 16px;
@@ -239,14 +205,13 @@ import { Project } from '../../../../../types/types';
       }
 
       .content-section {
-        justify-content: center; /* Wycentruj tytuł w pionie */
+        justify-content: center;
       }
 
       .hide-mobile {
         display: none;
       }
 
-      /* Dostosowanie paddingu i odstępów dla zachowania proporcji przy stałej wysokości */
       .icon-section {
         display: flex;
         align-items: center;
@@ -259,6 +224,8 @@ export class ProjectCardComponent {
   @Input() visible = false;
   @Input() expanded = false;
   @Output() onExpand = new EventEmitter<void>();
+
+  isModalOpen = false;
 
   get sanitizedIcon(): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(this.project.icon);
