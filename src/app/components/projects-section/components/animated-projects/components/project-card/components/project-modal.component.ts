@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
 import { Project } from '../../../../../../../types/types';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-project-modal',
@@ -41,13 +42,13 @@ import { animate, style, transition, trigger } from '@angular/animations';
       [dismissableMask]="true"
       [blockScroll]="true"
       styleClass="project-dialog"
-      [contentStyle]="{ padding: '0', background: '#1a1b1e' }"
-      [baseZIndex]="1000"
-      [breakpoints]="{'960px': '75vw', '640px': '90vw'}"
+      [contentStyle]="{ padding: '0', background: '#1a1b1e', borderRadius: '20px' }"
+      [baseZIndex]="10000"
+      [breakpoints]="{'960px': '600px', '640px': '90vw'}"
       appendTo="body"
-      [style]="{position: 'fixed'}"
+      [style]="{ width: '800px', maxWidth: '90vw', position: 'relative', margin: '1.5rem auto' }"
     >
-      <div class="modal-container" [@modalAnimation]>
+      <div class="modal-container">
         <div class="modal-header">
           <div class="close-button" (click)="closeModal()">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -55,7 +56,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
             </svg>
           </div>
           <div class="icon-wrapper">
-            <div class="icon" [innerHTML]="project.icon"></div>
+            <div class="icon" [innerHTML]="sanitizedIcon"></div>
           </div>
           <div class="header-content">
             <h2 class="modal-title">{{ project.title }}</h2>
@@ -80,11 +81,11 @@ import { animate, style, transition, trigger } from '@angular/animations';
 
           <div class="features-section">
             <h3>Key Features</h3>
-            <ul class="features-list">
-              @for (feature of [1,2,3]; track feature) {
-                <li class="feature-item">{{ feature }}</li>
-              }
-            </ul>
+<!--            <ul class="features-list">-->
+<!--              @for (feature of project.features || []; track feature) {-->
+<!--                <li class="feature-item">{{ feature }}</li>-->
+<!--              }-->
+<!--            </ul>-->
           </div>
         </div>
 
@@ -113,21 +114,19 @@ import { animate, style, transition, trigger } from '@angular/animations';
   `,
   styles: [`
     :host ::ng-deep .project-dialog {
-      max-width: 700px;
-      width: 90vw;
-      margin: 1.5rem auto;
-      height: auto;
-      max-height: calc(100vh - 3rem);
+      display: flex;
+      flex-direction: column;
     }
 
     :host ::ng-deep .project-dialog .p-dialog-content {
-      padding: 0;
       border-radius: 20px;
-      background: #1a1b1e !important;
+      background: #1a1b1e;
       color: #fff;
       border: 1px solid rgba(255, 255, 255, 0.1);
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-      overflow: hidden;
+      height: calc(90vh - 3rem);
+      display: flex;
+      flex-direction: column;
     }
 
     :host ::ng-deep .p-dialog-mask.p-component-overlay {
@@ -138,7 +137,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
     .modal-container {
       display: flex;
       flex-direction: column;
-      max-height: calc(100vh - 3rem);
+      height: 100%;
       background: #1a1b1e;
     }
 
@@ -149,6 +148,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       position: relative;
       background: #1a1b1e;
+      align-items: center;
     }
 
     .close-button {
@@ -165,6 +165,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
       color: #fff;
       cursor: pointer;
       transition: all 0.2s ease;
+      z-index: 1;
     }
 
     .close-button:hover {
@@ -177,12 +178,12 @@ import { animate, style, transition, trigger } from '@angular/animations';
     }
 
     .icon {
-      width: 72px;
-      height: 72px;
+      width: 64px;
+      height: 64px;
       background: #212226;
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 16px;
-      padding: 14px;
+      padding: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -191,10 +192,11 @@ import { animate, style, transition, trigger } from '@angular/animations';
 
     .header-content {
       flex: 1;
+      min-width: 0;
     }
 
     .modal-title {
-      font-size: 1.75rem;
+      font-size: 1.5rem;
       font-weight: 700;
       margin: 0;
       color: #fff;
@@ -204,7 +206,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
     .modal-subtitle {
       color: #94a3b8;
       margin: 8px 0 0;
-      font-size: 1rem;
+      font-size: 0.95rem;
       line-height: 1.5;
     }
 
@@ -214,7 +216,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
       flex-direction: column;
       gap: 28px;
       overflow-y: auto;
-      max-height: calc(100vh - 250px);
+      flex: 1;
       background: #1a1b1e;
     }
 
@@ -246,7 +248,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
     .full-description {
       color: #94a3b8;
       line-height: 1.7;
-      font-size: 1rem;
+      font-size: 0.95rem;
       margin: 0;
     }
 
@@ -346,18 +348,16 @@ import { animate, style, transition, trigger } from '@angular/animations';
     @media (max-width: 640px) {
       .modal-header {
         padding: 20px;
-        flex-direction: column;
-        gap: 16px;
-        text-align: center;
       }
 
-      .icon-wrapper {
-        display: flex;
-        justify-content: center;
+      .icon {
+        width: 48px;
+        height: 48px;
+        padding: 8px;
       }
 
       .modal-title {
-        font-size: 1.5rem;
+        font-size: 1.35rem;
       }
 
       .modal-content {
@@ -365,17 +365,13 @@ import { animate, style, transition, trigger } from '@angular/animations';
       }
 
       .modal-footer {
-        padding: 20px;
+        padding: 16px 20px;
         flex-direction: column;
+        gap: 8px;
       }
 
       .action-button {
         width: 100%;
-      }
-
-      :host ::ng-deep .project-dialog {
-        margin: 1rem;
-        width: calc(100vw - 2rem);
       }
     }
   `]
@@ -384,6 +380,12 @@ export class ProjectModalComponent {
   @Input() project!: Project;
   @Input() visible = false;
   @Output() visibleChange = new EventEmitter<boolean>();
+
+  get sanitizedIcon(): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(this.project.icon);
+  }
+
+  constructor(private sanitizer: DomSanitizer) {}
 
   closeModal() {
     this.visibleChange.emit(false);
