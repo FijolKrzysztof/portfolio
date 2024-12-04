@@ -1,144 +1,123 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DialogModule } from 'primeng/dialog';
 import { Project } from '../../../../../../../types/types';
-import { animate, style, transition, trigger } from '@angular/animations';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-project-modal',
   standalone: true,
-  imports: [CommonModule, DialogModule],
-  animations: [
-    trigger('modalAnimation', [
-      transition(':enter', [
-        style({
-          opacity: 0,
-          transform: 'scale(0.95) translateY(10px)'
-        }),
-        animate('200ms ease-out', style({
-          opacity: 1,
-          transform: 'scale(1) translateY(0)'
-        }))
-      ]),
-      transition(':leave', [
-        animate('150ms ease-in', style({
-          opacity: 0,
-          transform: 'scale(0.95) translateY(10px)'
-        }))
-      ])
-    ])
-  ],
+  imports: [CommonModule],
   template: `
-    <p-dialog
-      [(visible)]="visible"
-      [modal]="true"
-      [draggable]="false"
-      [resizable]="false"
-      [closable]="true"
-      (onHide)="closeModal()"
-      [closeOnEscape]="true"
-      [showHeader]="false"
-      [dismissableMask]="true"
-      [blockScroll]="true"
-      styleClass="project-dialog"
-      [contentStyle]="{ padding: '0', background: '#1a1b1e', borderRadius: '20px' }"
-      [baseZIndex]="10000"
-      [breakpoints]="{'960px': '600px', '640px': '90vw'}"
-      appendTo="body"
-      [style]="{ width: '800px', maxWidth: '90vw', position: 'relative', margin: '1.5rem auto' }"
-    >
-      <div class="modal-container">
-        <div class="modal-header">
-          <div class="close-button" (click)="closeModal()">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M18 6L6 18M6 6l12 12"></path>
-            </svg>
-          </div>
-          <div class="icon-wrapper">
-            <div class="icon" [innerHTML]="sanitizedIcon"></div>
-          </div>
-          <div class="header-content">
-            <h2 class="modal-title">{{ project.title }}</h2>
-            <p class="modal-subtitle">{{ project.shortDescription }}</p>
-          </div>
-        </div>
+    <div #portal>
+      @if (visible) {
+        <div class="modal-backdrop" (click)="closeModal()">
+          <div class="modal-content" (click)="$event.stopPropagation()">
+            <div class="modal-header">
+              <div class="close-button" (click)="closeModal()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 6L6 18M6 6l12 12"></path>
+                </svg>
+              </div>
+              <div class="icon-wrapper">
+                <div class="icon" [innerHTML]="sanitizedIcon"></div>
+              </div>
+              <div class="header-content">
+                <h2 class="modal-title">{{ project.title }}</h2>
+                <p class="modal-subtitle">{{ project.shortDescription }}</p>
+              </div>
+            </div>
 
-        <div class="modal-content custom-scrollbar">
-          <div class="description-section">
-            <h3>About the Project</h3>
-            <p class="full-description">{{ project.description }}</p>
-          </div>
+            <div class="modal-body custom-scrollbar">
+              <div class="description-section">
+                <h3>About the Project</h3>
+                <p class="full-description">{{ project.description }}</p>
+              </div>
 
-          <div class="technologies-section">
-            <h3>Technologies Used</h3>
-            <div class="tech-tags">
-              @for (tech of project.tech; track tech) {
-                <span class="tech-tag">{{ tech }}</span>
+              <div class="technologies-section">
+                <h3>Technologies Used</h3>
+                <div class="tech-tags">
+                  @for (tech of project.tech; track tech) {
+                    <span class="tech-tag">{{ tech }}</span>
+                  }
+                </div>
+              </div>
+
+              <div class="features-section">
+                <h3>Key Features</h3>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              @if (project.demoUrl) {
+                <a [href]="project.demoUrl" target="_blank" rel="noopener noreferrer" class="action-button demo">
+                  <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                  Live Demo
+                </a>
+              }
+              @if (project.githubUrl) {
+                <a [href]="project.githubUrl" target="_blank" rel="noopener noreferrer" class="action-button github">
+                  <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                  </svg>
+                  View Code
+                </a>
               }
             </div>
           </div>
-
-          <div class="features-section">
-            <h3>Key Features</h3>
-<!--            <ul class="features-list">-->
-<!--              @for (feature of project.features || []; track feature) {-->
-<!--                <li class="feature-item">{{ feature }}</li>-->
-<!--              }-->
-<!--            </ul>-->
-          </div>
         </div>
-
-        <div class="modal-footer">
-          @if (project.demoUrl) {
-            <a [href]="project.demoUrl" target="_blank" rel="noopener noreferrer" class="action-button demo">
-              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none">
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                <polyline points="15 3 21 3 21 9"></polyline>
-                <line x1="10" y1="14" x2="21" y2="3"></line>
-              </svg>
-              Live Demo
-            </a>
-          }
-          @if (project.githubUrl) {
-            <a [href]="project.githubUrl" target="_blank" rel="noopener noreferrer" class="action-button github">
-              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none">
-                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-              </svg>
-              View Code
-            </a>
-          }
-        </div>
-      </div>
-    </p-dialog>
+      }
+    </div>
   `,
   styles: [`
-    :host ::ng-deep .project-dialog {
-      display: flex;
-      flex-direction: column;
-    }
-
-    :host ::ng-deep .project-dialog .p-dialog-content {
-      border-radius: 20px;
-      background: #1a1b1e;
-      color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-      height: calc(90vh - 3rem);
-      display: flex;
-      flex-direction: column;
-    }
-
-    :host ::ng-deep .p-dialog-mask.p-component-overlay {
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       background: rgba(0, 0, 0, 0.7);
       backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: backdropFade 0.3s;
     }
 
-    .modal-container {
+    .modal-content {
+      width: min(800px, 90vw);
+      height: min(90vh, 100%);
+      background: #1a1b1e;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
       display: flex;
       flex-direction: column;
-      height: 100%;
-      background: #1a1b1e;
+      animation: modalEnter 0.6s cubic-bezier(.17,.67,.24,1.26);
+    }
+
+    @keyframes backdropFade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes modalEnter {
+      0% {
+        opacity: 0;
+        transform: scale(0.8) translateY(-40px);
+      }
+      70% {
+        opacity: 0.8;
+        transform: scale(1.05) translateY(5px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
     }
 
     .modal-header {
@@ -147,7 +126,6 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
       gap: 20px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       position: relative;
-      background: #1a1b1e;
       align-items: center;
     }
 
@@ -210,14 +188,13 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
       line-height: 1.5;
     }
 
-    .modal-content {
+    .modal-body {
       padding: 24px;
       display: flex;
       flex-direction: column;
       gap: 28px;
       overflow-y: auto;
       flex: 1;
-      background: #1a1b1e;
     }
 
     .custom-scrollbar {
@@ -238,7 +215,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
       border-radius: 3px;
     }
 
-    .modal-content h3 {
+    h3 {
       color: #fff;
       font-size: 1.1rem;
       margin: 0 0 16px;
@@ -274,41 +251,12 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
       transform: translateY(-1px);
     }
 
-    .features-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: grid;
-      gap: 12px;
-    }
-
-    .feature-item {
-      color: #94a3b8;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 0.95rem;
-      padding-left: 16px;
-      position: relative;
-    }
-
-    .feature-item::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      width: 6px;
-      height: 6px;
-      background: #818cf8;
-      border-radius: 50%;
-    }
-
     .modal-footer {
       padding: 20px 24px;
       border-top: 1px solid rgba(255, 255, 255, 0.1);
       display: flex;
       gap: 12px;
       justify-content: flex-end;
-      background: #1a1b1e;
     }
 
     .action-button {
@@ -360,7 +308,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
         font-size: 1.35rem;
       }
 
-      .modal-content {
+      .modal-body {
         padding: 20px;
       }
 
@@ -376,16 +324,27 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
     }
   `]
 })
-export class ProjectModalComponent {
+export class ProjectModalComponent implements AfterViewInit, OnDestroy {
   @Input() project!: Project;
   @Input() visible = false;
   @Output() visibleChange = new EventEmitter<boolean>();
+  @ViewChild('portal') portal!: ElementRef;
+
+  constructor(private sanitizer: DomSanitizer) {}
+
+  ngAfterViewInit() {
+    document.body.appendChild(this.portal.nativeElement);
+  }
+
+  ngOnDestroy() {
+    if (this.portal?.nativeElement) {
+      document.body.removeChild(this.portal.nativeElement);
+    }
+  }
 
   get sanitizedIcon(): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(this.project.icon);
   }
-
-  constructor(private sanitizer: DomSanitizer) {}
 
   closeModal() {
     this.visibleChange.emit(false);
