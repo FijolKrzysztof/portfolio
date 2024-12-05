@@ -116,6 +116,69 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
       background: transparent;
     }
 
+    .modal-fragment {
+      position: absolute;
+      background: #1a1b1e;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      width: 25%;
+      height: 25%;
+      z-index: 1;
+      transform-origin: center center;
+      opacity: 0;
+    }
+
+    /* Pozycje fragmentów */
+    .modal-fragment:nth-child(1) { top: 0; left: 0; }
+    .modal-fragment:nth-child(2) { top: 0; left: 25%; }
+    .modal-fragment:nth-child(3) { top: 0; left: 50%; }
+    .modal-fragment:nth-child(4) { top: 0; left: 75%; }
+    .modal-fragment:nth-child(5) { top: 25%; left: 0; }
+    .modal-fragment:nth-child(6) { top: 25%; left: 25%; }
+    .modal-fragment:nth-child(7) { top: 25%; left: 50%; }
+    .modal-fragment:nth-child(8) { top: 25%; left: 75%; }
+    .modal-fragment:nth-child(9) { top: 50%; left: 0; }
+    .modal-fragment:nth-child(10) { top: 50%; left: 25%; }
+    .modal-fragment:nth-child(11) { top: 50%; left: 50%; }
+    .modal-fragment:nth-child(12) { top: 50%; left: 75%; }
+    .modal-fragment:nth-child(13) { top: 75%; left: 0; }
+    .modal-fragment:nth-child(14) { top: 75%; left: 25%; }
+    .modal-fragment:nth-child(15) { top: 75%; left: 50%; }
+    .modal-fragment:nth-child(16) { top: 75%; left: 75%; }
+
+    @keyframes fragmentAppear {
+      0% {
+        opacity: 0;
+        transform: scale(0.3) rotate(45deg);
+      }
+      50% {
+        opacity: 0.7;
+        transform: scale(1.1) rotate(-5deg);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+      }
+    }
+
+    /* Perfekcyjnie równa przekątna */
+    .modal-fragment:nth-child(1) { animation: fragmentAppear 0.6s 0.1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }   /* Przekątna 0 */
+    .modal-fragment:nth-child(2),
+    .modal-fragment:nth-child(5) { animation: fragmentAppear 0.6s 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }   /* Przekątna 1 */
+    .modal-fragment:nth-child(3),
+    .modal-fragment:nth-child(6),
+    .modal-fragment:nth-child(9) { animation: fragmentAppear 0.6s 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }   /* Przekątna 2 */
+    .modal-fragment:nth-child(4),
+    .modal-fragment:nth-child(7),
+    .modal-fragment:nth-child(10),
+    .modal-fragment:nth-child(13) { animation: fragmentAppear 0.6s 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }  /* Przekątna 3 */
+    .modal-fragment:nth-child(8),
+    .modal-fragment:nth-child(11),
+    .modal-fragment:nth-child(14) { animation: fragmentAppear 0.6s 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }  /* Przekątna 4 */
+    .modal-fragment:nth-child(12),
+    .modal-fragment:nth-child(15) { animation: fragmentAppear 0.6s 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }  /* Przekątna 5 */
+    .modal-fragment:nth-child(16) { animation: fragmentAppear 0.6s 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }  /* Przekątna 6 */
+
+    /* Animacja modala po przekątnej */
     .modal-inner {
       position: relative;
       z-index: 2;
@@ -124,222 +187,31 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
       flex-direction: column;
       background: #1a1b1e;
       opacity: 0;
-      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-      animation: innerReveal 0.3s 0.8s forwards ease-out;
+      clip-path: polygon(0 0, 0 0, 0 0, 0 0);
+      animation: diagonalReveal 1s 0.5s forwards ease-out;
     }
 
-    /* Fragmenty modalu */
-    /* Bazowe style fragmentów */
-    .modal-fragment {
-      position: absolute;
-      background: #1a1b1e;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      width: 25%;
-      height: 25%;
-      z-index: 1;
-    }
-
-    /* Pierwszy rząd - animacje od góry */
-    .modal-fragment:nth-child(1) {
-      top: 0;
-      left: 0;
-      transform-origin: top left;
-      animation: topLeftFragment 0.5s 0.1s forwards cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .modal-fragment:nth-child(2) {
-      top: 0;
-      left: 25%;
-      transform-origin: top center;
-      animation: topCenterFragment 0.5s 0.15s forwards cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .modal-fragment:nth-child(3) {
-      top: 0;
-      left: 50%;
-      transform-origin: top center;
-      animation: topCenterFragment 0.5s 0.2s forwards cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .modal-fragment:nth-child(4) {
-      top: 0;
-      left: 75%;
-      transform-origin: top right;
-      animation: topRightFragment 0.5s 0.25s forwards cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    /* Środkowe rzędy - animacje od boków */
-    .modal-fragment:nth-child(5) {
-      top: 25%;
-      left: 0;
-      transform-origin: left center;
-      animation: leftFragment 0.5s 0.2s forwards cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .modal-fragment:nth-child(8) {
-      top: 25%;
-      left: 75%;
-      transform-origin: right center;
-      animation: rightFragment 0.5s 0.35s forwards cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .modal-fragment:nth-child(9) {
-      top: 50%;
-      left: 0;
-      transform-origin: left center;
-      animation: leftFragment 0.5s 0.3s forwards cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .modal-fragment:nth-child(12) {
-      top: 50%;
-      left: 75%;
-      transform-origin: right center;
-      animation: rightFragment 0.5s 0.45s forwards cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    /* Środkowe fragmenty - animacje ze środka */
-    .modal-fragment:nth-child(6),
-    .modal-fragment:nth-child(7),
-    .modal-fragment:nth-child(10),
-    .modal-fragment:nth-child(11) {
-      animation: centerFragment 0.5s forwards cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .modal-fragment:nth-child(6) { top: 25%; left: 25%; animation-delay: 0.25s; }
-    .modal-fragment:nth-child(7) { top: 25%; left: 50%; animation-delay: 0.3s; }
-    .modal-fragment:nth-child(10) { top: 50%; left: 25%; animation-delay: 0.35s; }
-    .modal-fragment:nth-child(11) { top: 50%; left: 50%; animation-delay: 0.4s; }
-
-    /* Dolny rząd - animacje od dołu */
-    .modal-fragment:nth-child(13) {
-      top: 75%;
-      left: 0;
-      transform-origin: bottom left;
-      animation: bottomLeftFragment 0.5s 0.4s forwards cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .modal-fragment:nth-child(14) {
-      top: 75%;
-      left: 25%;
-      transform-origin: bottom center;
-      animation: bottomCenterFragment 0.5s 0.45s forwards cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .modal-fragment:nth-child(15) {
-      top: 75%;
-      left: 50%;
-      transform-origin: bottom center;
-      animation: bottomCenterFragment 0.5s 0.5s forwards cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .modal-fragment:nth-child(16) {
-      top: 75%;
-      left: 75%;
-      transform-origin: bottom right;
-      animation: bottomRightFragment 0.5s 0.55s forwards cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    /* Unikalne animacje dla różnych pozycji */
-    @keyframes topLeftFragment {
+    @keyframes diagonalReveal {
       0% {
-        transform: translate(50%, 50%) scale(0) rotate(45deg);
         opacity: 0;
+        clip-path: polygon(0 0, 0 0, 0 0, 0 0);
+      }
+      20% {
+        opacity: 1;
+        clip-path: polygon(0 0, 25% 0, 25% 25%, 0 25%);
+      }
+      40% {
+        clip-path: polygon(0 0, 50% 0, 50% 50%, 0 50%);
+      }
+      60% {
+        clip-path: polygon(0 0, 75% 0, 75% 75%, 0 75%);
+      }
+      80% {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
       }
       100% {
-        transform: translate(0, 0) scale(1) rotate(0);
         opacity: 1;
-      }
-    }
-
-    @keyframes topRightFragment {
-      0% {
-        transform: translate(-50%, 50%) scale(0) rotate(-45deg);
-        opacity: 0;
-      }
-      100% {
-        transform: translate(0, 0) scale(1) rotate(0);
-        opacity: 1;
-      }
-    }
-
-    @keyframes topCenterFragment {
-      0% {
-        transform: translateY(100%) scale(0) rotate(180deg);
-        opacity: 0;
-      }
-      100% {
-        transform: translateY(0) scale(1) rotate(0);
-        opacity: 1;
-      }
-    }
-
-    @keyframes leftFragment {
-      0% {
-        transform: translateX(100%) scale(0) rotate(-90deg);
-        opacity: 0;
-      }
-      100% {
-        transform: translateX(0) scale(1) rotate(0);
-        opacity: 1;
-      }
-    }
-
-    @keyframes rightFragment {
-      0% {
-        transform: translateX(-100%) scale(0) rotate(90deg);
-        opacity: 0;
-      }
-      100% {
-        transform: translateX(0) scale(1) rotate(0);
-        opacity: 1;
-      }
-    }
-
-    @keyframes centerFragment {
-      0% {
-        transform: scale(0) rotate(45deg);
-        opacity: 0;
-      }
-      50% {
-        transform: scale(1.2) rotate(20deg);
-        opacity: 0.5;
-      }
-      100% {
-        transform: scale(1) rotate(0);
-        opacity: 1;
-      }
-    }
-
-    @keyframes bottomLeftFragment {
-      0% {
-        transform: translate(50%, -50%) scale(0) rotate(-45deg);
-        opacity: 0;
-      }
-      100% {
-        transform: translate(0, 0) scale(1) rotate(0);
-        opacity: 1;
-      }
-    }
-
-    @keyframes bottomRightFragment {
-      0% {
-        transform: translate(-50%, -50%) scale(0) rotate(45deg);
-        opacity: 0;
-      }
-      100% {
-        transform: translate(0, 0) scale(1) rotate(0);
-        opacity: 1;
-      }
-    }
-
-    @keyframes bottomCenterFragment {
-      0% {
-        transform: translateY(-100%) scale(0) rotate(-180deg);
-        opacity: 0;
-      }
-      100% {
-        transform: translateY(0) scale(1) rotate(0);
-        opacity: 1;
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
       }
     }
 
@@ -550,17 +422,6 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
       100% {
         transform: scale(1) rotate(0);
         opacity: 1;
-      }
-    }
-
-    @keyframes innerReveal {
-      0% {
-        opacity: 0;
-        transform: scale(0.98);
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1);
       }
     }
 
