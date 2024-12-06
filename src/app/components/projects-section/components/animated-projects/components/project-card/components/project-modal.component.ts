@@ -55,6 +55,15 @@ import { Project } from '../../../../../../../types/types';
                   <p class="full-description">{{ project().description }}</p>
                 </div>
 
+                <div class="features-section">
+                  <h3>Key Features</h3>
+                  <ul class="features-list">
+                    @for (feature of project().features; track feature) {
+                      <li>{{ feature }}</li>
+                    }
+                  </ul>
+                </div>
+
                 <div class="technologies-section">
                   <h3>Technologies Used</h3>
                   <div class="tech-tags" role="list">
@@ -63,15 +72,6 @@ import { Project } from '../../../../../../../types/types';
                     }
                   </div>
                 </div>
-
-<!--                <div class="features-section">-->
-<!--                  <h3>Key Features</h3>-->
-<!--                  <ul class="features-list">-->
-<!--                    @for (feature of project().features; track feature) {-->
-<!--                      <li>{{ feature }}</li>-->
-<!--                    }-->
-<!--                  </ul>-->
-<!--                </div>-->
               </div>
 
               <div class="modal-footer">
@@ -110,7 +110,7 @@ import { Project } from '../../../../../../../types/types';
       }
     </div>
   `,
-  styleUrl: 'project-modal.component.scss',
+  styleUrl: 'project-modal.component.scss'
 })
 export class ProjectModalComponent implements AfterViewInit, OnDestroy {
   readonly sanitizer = inject(DomSanitizer);
