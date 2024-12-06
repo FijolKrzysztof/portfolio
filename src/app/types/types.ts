@@ -24,3 +24,11 @@ export interface ProjectSection {
   isExpanded: boolean;
   project: Project | null;
 }
+
+export interface CodeLine {
+  isVisible: boolean;
+  text: string;
+  class: string;
+}
+
+export type ProjectKey = 'chatHub' | 'easyTrade' | 'techSpec';

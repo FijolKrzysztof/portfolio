@@ -48,8 +48,6 @@ export class SkillsProfileComponent implements OnInit {
   constructor(private elementRef: ElementRef) {}
 
   ngOnInit() {
-    // this.updateDimensions();
-    // Inicjalne ustawienie po załadowaniu komponentu
     setTimeout(() => {
       this.adjustToContainer();
     });
@@ -67,28 +65,23 @@ export class SkillsProfileComponent implements OnInit {
     const containerWidth = container.offsetWidth;
     const containerHeight = container.offsetHeight;
 
-    // Zachowujemy proporcje 400:450
     const aspectRatio = 350/400;
 
     if (containerWidth * aspectRatio <= containerHeight) {
-      // Szerokość jest ograniczeniem
       this.width = containerWidth;
       this.height = containerWidth * aspectRatio;
     } else {
-      // Wysokość jest ograniczeniem
       this.height = containerHeight;
       this.width = containerHeight / aspectRatio;
     }
 
-    // Skalujemy pozostałe wymiary proporcjonalnie
-    const scale = this.width / 400; // 400 to bazowa szerokość
+    const scale = this.width / 400;
     this.radius = 120 * scale;
     this.pointRadius = 4 * scale;
     this.fontSize = 28 * scale;
-    this.labelFontSize = 14 * Math.max(scale, 0.8); // Ograniczamy maksymalny rozmiar czcionki
+    this.labelFontSize = 14 * Math.max(scale, 0.8);
     this.centerY = this.height / 2;
 
-    // Aktualizujemy pozycje punktów i punktów kontrolnych
     this.calculatePointPositions();
     this.calculateControlPoints();
   }
@@ -115,7 +108,6 @@ export class SkillsProfileComponent implements OnInit {
   }
 
   private calculateControlPoints() {
-    // Normalne punkty kontrolne
     const normalCurve = 0.3;
     this.controlPoints.normal = {
       frontend_uiux: {
@@ -136,7 +128,6 @@ export class SkillsProfileComponent implements OnInit {
       }
     };
 
-    // Punkty kontrolne dla hovera
     const hoverCurve = 0.5;
     this.controlPoints.hover = {
       frontend_uiux: {

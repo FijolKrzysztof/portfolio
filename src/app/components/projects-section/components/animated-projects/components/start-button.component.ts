@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, output } from '@angular/core';
 
 @Component({
   selector: 'app-start-button',
@@ -78,5 +78,5 @@ import { Component, EventEmitter, Output } from '@angular/core';
   `]
 })
 export class StartButtonComponent {
-  @Output() onClick = new EventEmitter<void>();
+  onClick = output<void>();
 }

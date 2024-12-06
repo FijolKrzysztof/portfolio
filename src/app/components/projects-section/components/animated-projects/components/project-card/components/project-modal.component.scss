@@ -1,3 +1,27 @@
+$modal-background: #1a1b1e;
+$text-primary: #fff;
+$text-secondary: #94a3b8;
+$accent-color: #6366f1;
+$accent-hover: #4f46e5;
+$border-color: rgba(255, 255, 255, 0.1);
+$grid-size: 6;
+$fragment-size: (100% / $grid-size);
+$animation-base-delay: 0.05s;
+$button-transition: all 0.2s ease;
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin hover-transform {
+  transition: $button-transition;
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -18,15 +42,10 @@
   background: transparent;
 }
 
-$grid-size: 6;
-$fragment-size: (100% / $grid-size);
-$total-fragments: $grid-size * $grid-size;
-$animation-base-delay: 0.05s;
-
 .modal-fragment {
   position: absolute;
-  background: #1a1b1e;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: $modal-background;
+  border: 1px solid $border-color;
   width: $fragment-size;
   height: $fragment-size;
   z-index: 1;
@@ -34,7 +53,6 @@ $animation-base-delay: 0.05s;
   opacity: 0;
 }
 
-// Generowanie pozycji fragmentów
 @for $row from 0 through ($grid-size - 1) {
   @for $col from 0 through ($grid-size - 1) {
     $index: $row * $grid-size + $col + 1;
@@ -42,6 +60,217 @@ $animation-base-delay: 0.05s;
       top: $row * $fragment-size;
       left: $col * $fragment-size;
     }
+  }
+}
+
+@for $diagonal from 0 through ($grid-size * 2 - 2) {
+  $selector: ();
+  @for $row from 0 through ($grid-size - 1) {
+    $col: $diagonal - $row;
+    @if $col >= 0 and $col < $grid-size {
+      $index: $row * $grid-size + $col + 1;
+      $selector: append($selector, ".modal-fragment:nth-child(#{$index})", comma);
+    }
+  }
+  #{$selector} {
+    animation: fragmentAppear 0.6s ($diagonal * $animation-base-delay + 0.1s) cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+}
+
+.modal-inner {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: $modal-background;
+  opacity: 0;
+  clip-path: polygon(0 0, 0 0, 0 0, 0 0);
+  animation: diagonalReveal 0.8s 0.5s forwards ease-out;
+}
+
+.modal-header {
+  padding: 24px;
+  display: flex;
+  gap: 20px;
+  border-bottom: 1px solid $border-color;
+  position: relative;
+  align-items: center;
+
+  .close-button {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    @include flex-center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    color: $text-primary;
+    cursor: pointer;
+    transition: $button-transition;
+    border: none;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: rotate(90deg);
+    }
+  }
+
+  .icon-wrapper {
+    flex-shrink: 0;
+  }
+
+  .icon {
+    width: 64px;
+    height: 64px;
+    background: #212226;
+    border: 1px solid $border-color;
+    border-radius: 16px;
+    padding: 12px;
+    @include flex-center;
+  }
+
+  .header-content {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: $text-primary;
+}
+
+.modal-subtitle {
+  color: $text-secondary;
+  margin: 8px 0 0;
+  font-size: 0.95rem;
+}
+
+.modal-body {
+  padding: 24px;
+  flex: 1;
+  overflow-y: auto;
+
+  h3 {
+    color: $text-primary;
+    font-size: 1.1rem;
+    margin: 0 0 16px;
+    font-weight: 600;
+  }
+}
+
+.description-section,
+.technologies-section,
+.features-section {
+  margin-bottom: 28px;
+}
+
+.full-description {
+  color: $text-secondary;
+  line-height: 1.7;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tech-tag {
+  background: #212226;
+  color: #818cf8;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  @include hover-transform;
+
+  &:hover {
+    background: #2a2b31;
+  }
+}
+
+.features-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  color: $text-secondary;
+
+  li {
+    margin-bottom: 8px;
+    padding-left: 24px;
+    position: relative;
+
+    &::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: #818cf8;
+    }
+  }
+}
+
+.modal-footer {
+  padding: 20px 24px;
+  border-top: 1px solid $border-color;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.action-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+  @include hover-transform;
+
+  &.demo {
+    background: $accent-color;
+    color: $text-primary;
+
+    &:hover {
+      background: $accent-hover;
+      box-shadow: 0 4px 12px rgba($accent-color, 0.3);
+    }
+  }
+
+  &.github {
+    background: #212226;
+    color: $text-primary;
+
+    &:hover {
+      background: #2a2b31;
+    }
+  }
+}
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
   }
 }
 
@@ -58,35 +287,6 @@ $animation-base-delay: 0.05s;
     opacity: 1;
     transform: scale(1) rotate(0);
   }
-}
-
-// Generowanie opóźnień animacji po przekątnej
-@for $diagonal from 0 through ($grid-size * 2 - 2) {
-  $selector: ();
-
-  @for $row from 0 through ($grid-size - 1) {
-    $col: $diagonal - $row;
-    @if $col >= 0 and $col < $grid-size {
-      $index: $row * $grid-size + $col + 1;
-      $selector: append($selector, ".modal-fragment:nth-child(#{$index})", comma);
-    }
-  }
-
-  #{$selector} {
-    animation: fragmentAppear 0.6s ($diagonal * $animation-base-delay + 0.1s) cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-  }
-}
-
-.modal-inner {
-  position: relative;
-  z-index: 2;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  background: #1a1b1e;
-  opacity: 0;
-  clip-path: polygon(0 0, 0 0, 0 0, 0 0);
-  animation: diagonalReveal 0.8s 0.5s forwards ease-out;
 }
 
 @keyframes diagonalReveal {
@@ -110,216 +310,6 @@ $animation-base-delay: 0.05s;
   }
 }
 
-/* Header Styles */
-.modal-header {
-  padding: 24px;
-  display: flex;
-  gap: 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  position: relative;
-  align-items: center;
-}
-
-.close-button {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.close-button:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: rotate(90deg);
-}
-
-.icon-wrapper {
-  flex-shrink: 0;
-}
-
-.icon {
-  width: 64px;
-  height: 64px;
-  background: #212226;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  padding: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.header-content {
-  flex: 1;
-  min-width: 0;
-}
-
-.modal-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin: 0;
-  color: #fff;
-}
-
-.modal-subtitle {
-  color: #94a3b8;
-  margin: 8px 0 0;
-  font-size: 0.95rem;
-}
-
-/* Body Styles */
-.modal-body {
-  padding: 24px;
-  flex: 1;
-  overflow-y: auto;
-}
-
-.description-section,
-.technologies-section,
-.features-section {
-  margin-bottom: 28px;
-}
-
-h3 {
-  color: #fff;
-  font-size: 1.1rem;
-  margin: 0 0 16px;
-  font-weight: 600;
-}
-
-.full-description {
-  color: #94a3b8;
-  line-height: 1.7;
-  font-size: 0.95rem;
-  margin: 0;
-}
-
-.tech-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.tech-tag {
-  background: #212226;
-  color: #818cf8;
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  border: 1px solid rgba(99, 102, 241, 0.2);
-  transition: all 0.2s ease;
-}
-
-.tech-tag:hover {
-  transform: translateY(-1px);
-  background: #2a2b31;
-}
-
-.features-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  color: #94a3b8;
-}
-
-.features-list li {
-  margin-bottom: 8px;
-  padding-left: 24px;
-  position: relative;
-}
-
-.features-list li::before {
-  content: "→";
-  position: absolute;
-  left: 0;
-  color: #818cf8;
-}
-
-/* Footer Styles */
-.modal-footer {
-  padding: 20px 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  display: flex;
-  gap: 12px;
-  justify-content: flex-end;
-}
-
-.action-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  border-radius: 10px;
-  font-size: 0.95rem;
-  font-weight: 500;
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
-
-.action-button.demo {
-  background: #6366f1;
-  color: #fff;
-}
-
-.action-button.demo:hover {
-  background: #4f46e5;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-}
-
-.action-button.github {
-  background: #212226;
-  color: #fff;
-}
-
-.action-button.github:hover {
-  background: #2a2b31;
-  transform: translateY(-2px);
-}
-
-/* Scrollbar Styles */
-.custom-scrollbar {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
-}
-
-.custom-scrollbar::-webkit-scrollbar {
-  width: 6px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 3px;
-}
-
-/* Animations */
-@keyframes mergeFragment {
-  0% {
-    transform: scale(0) rotate(45deg);
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1) rotate(0);
-    opacity: 1;
-  }
-}
-
 @keyframes backdropReveal {
   0% {
     background: rgba(0, 0, 0, 0);
@@ -331,16 +321,15 @@ h3 {
   }
 }
 
-/* Responsive Styles */
 @media (max-width: 640px) {
   .modal-header {
     padding: 20px;
-  }
 
-  .icon {
-    width: 48px;
-    height: 48px;
-    padding: 8px;
+    .icon {
+      width: 48px;
+      height: 48px;
+      padding: 8px;
+    }
   }
 
   .modal-title {
