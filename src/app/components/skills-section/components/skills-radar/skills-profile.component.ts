@@ -93,16 +93,16 @@ export class SkillsProfileComponent implements OnInit {
         y: 0
       },
       backend: {
-        x: this.radius * 0.72,
+        x: this.radius * 0.68,
         y: 0
       },
       uiux: {
         x: 0,
-        y: -this.radius * 0.64
+        y: -this.radius * 0.62
       },
       devops: {
         x: 0,
-        y: this.radius * 0.50
+        y: this.radius * 0.45
       }
     };
   }
