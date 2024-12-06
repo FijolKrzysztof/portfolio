@@ -10,6 +10,7 @@ export interface Project {
   icon: string;
   shortDescription: string;
   description: string;
+  features: string[];
   tech: string[];
   githubUrl?: string;
   demoUrl?: string;
