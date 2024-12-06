@@ -75,11 +75,9 @@
       </pattern>
     </defs>
 
-    <!-- Background -->
     <rect x="0" y="0" [attr.width]="width" [attr.height]="height" fill="url(#bg)" [attr.rx]="borderRadius" />
     <rect x="0" y="0" [attr.width]="width" [attr.height]="height" fill="url(#grid)" [attr.rx]="borderRadius" />
 
-    <!-- Main content -->
     <g [attr.transform]="'translate(' + width/2 + ',' + centerY + ')'">
 
       <g class="rotating-lines">
@@ -99,7 +97,6 @@
         </line>
       </g>
 
-      <!-- Guidelines -->
       <g *ngFor="let level of [1, 0.75, 0.5, 0.25]">
         <circle [attr.r]="radius * level" class="guideline-hitbox"></circle>
         <circle [attr.r]="radius * level" fill="none"
@@ -114,7 +111,6 @@
         <circle [attr.r]="radius * level" class="guideline-ripple"></circle>
       </g>
 
-      <!-- Skill area -->
       <g class="skill-area-group"
          (mouseenter)="isHovered = true"
          (mouseleave)="isHovered = false">
@@ -137,7 +133,6 @@
         </path>
       </g>
 
-      <!-- Skill points -->
       <g *ngFor="let skill of skills">
         <g class="skill-point" [class.active]="hoveredSkill === skill">
           <circle [attr.cx]="getPointPosition(skill).x"
@@ -162,7 +157,6 @@
         </g>
       </g>
 
-      <!-- Labels -->
       <g [attr.font-size]="labelFontSize" font-family="Arial, sans-serif" font-weight="500"
          filter="url(#textShadow)" class="skill-labels">
         <text [attr.x]="-radius * labelDistanceMultiplier" y="5" class="skill-label side-label"

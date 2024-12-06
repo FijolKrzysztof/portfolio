@@ -11,7 +11,6 @@ svg {
   display: block;
 }
 
-// Guidelines and animations
 .rotating-lines {
   .guideline {
     stroke: rgba(255,255,255,0.12);
@@ -59,7 +58,6 @@ svg {
   pointer-events: none;
 }
 
-// Skill points
 .skill-point {
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -85,7 +83,6 @@ svg {
   }
 }
 
-// Skill area
 .skill-area-base {
   fill: url(#skillGradient);
   stroke: #3b82f6;
@@ -119,7 +116,6 @@ svg {
   }
 }
 
-// Labels
 .skill-labels {
   .skill-label {
     text-anchor: middle;
@@ -135,7 +131,6 @@ svg {
   }
 }
 
-// Media query for small screens
 @media screen and (max-width: 300px) {
   .skill-label.side-label {
     writing-mode: vertical-lr;
@@ -146,7 +141,6 @@ svg {
   }
 }
 
-// Animations
 @keyframes skillPointPulse {
   0% {
     transform: scale(1);

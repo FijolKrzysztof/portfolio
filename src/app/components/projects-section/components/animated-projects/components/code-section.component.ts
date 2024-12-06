@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CodeLine } from '../../../../../types/types';
 
@@ -7,9 +7,9 @@ import { CodeLine } from '../../../../../types/types';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="code-section" [class.transforming]="isTransforming" [class.hidden]="isTransforming">
-      <div class="transform-overlay" [class.active]="isTransforming"></div>
-      @for (line of visibleLines; track line) {
+    <div class="code-section" [class.transforming]="isTransforming()" [class.hidden]="isTransforming()">
+      <div class="transform-overlay" [class.active]="isTransforming()"></div>
+      @for (line of visibleLines(); track line) {
         <div class="code-line" [class.visible]="line.isVisible">
           <span [class]="line.class">{{ line.text }}</span>
         </div>
@@ -110,6 +110,6 @@ import { CodeLine } from '../../../../../types/types';
   `]
 })
 export class CodeSectionComponent {
-  @Input() visibleLines: CodeLine[] = [];
-  @Input() isTransforming = false;
+  visibleLines = input<CodeLine[]>([]);
+  isTransforming = input<boolean>(false);
 }
